@@ -29,16 +29,16 @@ int main() {
   cout << number << " " << endl;
 
   cout << "\nEnter on integer and one real number: ";
-  cin >> number;
-  cin >> bigReal;
+  cin >> number
+      >> bigReal;
   cin.ignore(1000, '\n');
   cout << "The real is: " << setfill(' ') << setw(11) << setprecision(3)
        << fixed << bigReal << endl;
   cout << "The integer is: " << setfill(' ') << setw(8) << number << endl;
 
   cout << "\nEnter one real and one integer number: ";
-  cin >> bigReal;
-  cin >> number;
+  cin >> bigReal
+      >> number;
   cin.ignore(1000, '\n');
   cout << "The real is: " << setfill('.') << setw(11) << setprecision(3)
        << bigReal << endl;
@@ -57,21 +57,21 @@ int main() {
        << endl;
 
   cout << "\nEnter an integer and a word: ";
-  cin >> number;
-  cin >> str;
+  cin >> number
+      >> str;
   cin.ignore(1000, '\n');
   cout << "You entered: '" << number << "' and '" << str << "'." << endl;
 
   cout << "\nEnter an character and a word: ";
-  cin >> c;
-  cin >> str;
+  cin >> c
+      >> str;
   cin.ignore(1000, '\n');
   cout << "You entered the string '" << str << "' and the character '" << c
        << "'." << endl;
 
   cout << "\nEnter a word and a real number: ";
-  cin >> str;
-  cin >> bigReal;
+  cin >> str
+      >> bigReal;
   cin.ignore(1000, '\n');
   cout << "You entered: '" << str << "' and '" << setprecision(3) << bigReal
        << "'." << endl;
