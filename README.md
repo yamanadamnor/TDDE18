@@ -8,4 +8,4 @@ Compile the testing framework
 
 Compile the test with the precompiled object file
 
-`g++ -std=c++17 -Wall -Wextra -Wpedantic -o test_main.o Time.cpp time_test.cpp`
+`g++ -std=c++17 -Wall -Wextra -Wpedantic test_main.o Time.cpp time_test.cpp`

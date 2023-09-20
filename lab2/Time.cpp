@@ -117,32 +117,32 @@ bool Time::operator!=(const Time &time2) const
     return !(*this == time2);
 }
 
-ostream &Time::operator<<(ostream &os)
+ostream &operator<<(ostream &os, Time &time)
 {
-    string timeStr = to_string();
-    os << timeStr;
+    os << time.to_string();
     return os;
 }
 
-istream &Time::operator>>(istream &is)
+istream &operator>>(istream &is, Time &time)
 {
+    char c;
     int hour;
     int minute;
     int second;
 
+    is >> hour;
+    is >> c;
+    is >> minute;
+    is >> c;
+    is >> second;
+
     try
     {
-        is >> hour;
-        is.ignore(1000, ':');
-        is >> minute;
-        is.ignore(1000, ':');
-        is >> second;
-
-        Time newTime{hour, minute, second};
+        time = Time(hour, minute, second);
     }
     catch (const std::exception &e)
     {
-        is.setstate(std::ios::failbit);
+        is.setstate(std::ios_base::failbit);
         std::cerr << e.what() << '\n';
     }
     return is;

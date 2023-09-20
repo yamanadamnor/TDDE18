@@ -31,9 +31,6 @@ struct Time
   bool operator==(const Time &time2) const;
   bool operator!=(const Time &time2) const;
 
-  std::ostream &operator<<(std::ostream &os);
-  std::istream &operator>>(std::istream &is);
-
   std::string to_string(bool shortFormat = false) const;
 
   Time format_ampm(Time time) const;
@@ -46,5 +43,8 @@ struct Time
 
   int get_time_in_seconds() const;
 };
+
+std::istream &operator>>(std::istream &is, Time &time);
+std::ostream &operator<<(std::ostream &is, Time &time);
 
 #endif

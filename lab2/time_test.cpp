@@ -1,5 +1,6 @@
 #include "Time.hpp"
 #include "catch.hpp"
+#include <sstream>
 
 TEST_CASE("Constructor tests")
 {
@@ -38,7 +39,10 @@ TEST_CASE("Test methods")
   SECTION("Check string conversion")
   {
     Time time{12, 0, 0};
+    Time time2{22, 59, 59};
+
     CHECK(time.to_string() == "12:00:00");
+    CHECK(time2.to_string(true) == "10:59:59 pm");
   }
 
   SECTION("Test is_am")
@@ -110,5 +114,68 @@ TEST_CASE("Test increment/decrement operators")
     CHECK(time2.hour == 14);
     CHECK(time2.minute == 59);
     CHECK(time2.second == 50);
+  }
+}
+
+TEST_CASE("Test comparison operators")
+{
+  Time time{14, 0, 0};
+  Time time2{14, 0, 0};
+  Time time3{15, 0, 0};
+
+  SECTION("greater/equal than")
+  {
+    CHECK(time3 > time);
+    CHECK_FALSE(time > time3);
+
+    CHECK(time3 >= time);
+    CHECK_FALSE(time >= time3);
+  }
+
+  SECTION("less/equal than")
+  {
+    CHECK(time < time3);
+    CHECK_FALSE(time3 < time);
+
+    CHECK(time <= time3);
+    CHECK_FALSE(time3 <= time);
+  }
+
+  SECTION("equal/not equal to")
+  {
+    CHECK(time == time2);
+    CHECK_FALSE(time == time3);
+
+    CHECK(time != time3);
+    CHECK_FALSE(time != time2);
+  }
+}
+
+TEST_CASE("streaming operators")
+{
+  std::istringstream iss{"21:00:10"};
+  std::istringstream iss2{"26:00:00"};
+  std::ostringstream oss{};
+  Time time{};
+  Time time2{};
+  Time time3{21, 4, 4};
+
+  SECTION("input stream")
+  {
+    // Correct input
+    iss >> time;
+    CHECK_FALSE(iss.fail());
+    CHECK(time.to_string() == "21:00:10");
+
+    // Invalid input
+    iss2 >> time2;
+    CHECK(iss2.fail());
+    CHECK(time2.to_string() == "00:00:00");
+  }
+
+  SECTION("output stream")
+  {
+    oss << time3;
+    CHECK(oss.str() == "21:04:04");
   }
 }
