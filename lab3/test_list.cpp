@@ -12,20 +12,29 @@
 
 // This define lets Catch create the main test program
 // (Must be in only one place!)
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-
+#include "sorted_list.hpp"
+#include <iostream>
 #include <random>
 
 //=======================================================================
 // Test cases
 //=======================================================================
 
+TEST_CASE("Insert to list") {
+  SortedList l{};
+  l.insert(6);
+  l.insert(4);
+  l.insert(5);
+  l.insert(1);
+  l.print();
+}
+
 TEST_CASE( "Create an empty list" ) {
-  Sorted_List l{};
+  SortedList l{};
 
   REQUIRE( l.is_empty() == true );
   REQUIRE( l.size() == 0 );
 }
 
-// It is your job to create new test cases and fully test your Sorted_List class
+// It is your job to create new test cases and fully test your SortedList class
