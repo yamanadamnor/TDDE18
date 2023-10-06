@@ -6,31 +6,9 @@
 #include "Time.hpp"
 using namespace std;
 
-Time::Time(int h, int m, int s) : hour(h), minute(m), second(s)
-{
-    hour = h;
-    if (!this->is_valid_hour())
-    {
-        throw std::invalid_argument("Cannot initialize object. Hour must be between 0-23");
-    }
-
-    minute = m;
-    if (!this->is_valid_minute())
-    {
-        throw std::invalid_argument("Cannot initialize object. Minute must be between 0-59");
-    }
-
-    minute = m;
-    if (!this->is_valid_second())
-    {
-        throw std::invalid_argument("Cannot initialize object. Second must be between 0-59");
-    }
-}
-
-// TODO: Validate the Time struct in the constructor
 Time &increment(Time &time, int inc)
 {
-    int oldTimeInSec = time.get_time_in_seconds();
+    int oldTimeInSec = get_time_in_seconds(time);
     oldTimeInSec += inc;
     time.hour = oldTimeInSec / 3600;
     time.minute = (oldTimeInSec % 3600) / 60;
@@ -38,88 +16,87 @@ Time &increment(Time &time, int inc)
     return time;
 }
 
-Time Time::operator+(int seconds) const
+Time operator+(const Time &time, int seconds)
 {
-    Time timeCopy = *this;
+    Time timeCopy = time;
     return increment(timeCopy, seconds);
 }
 
-Time Time::operator-(int seconds) const
+Time operator-(const Time &time, int seconds)
 {
-    Time timeCopy = *this;
+    Time timeCopy = time;
     return increment(timeCopy, -seconds);
 }
 
 // Prefix operator++
-Time &Time::operator++()
+Time &operator++(const Time &time)
 {
-    return increment(*this, 1);
+    Time timeCopy{time};
+    return increment(timeCopy, 1);
 }
 
 // Postfix operator++
-Time Time::operator++(int)
+Time operator++(const Time &time, int)
 {
-    Time oldTime = *this;
-    ++*this;
+    Time oldTime = time;
+    ++time;
     return oldTime;
 }
 
 // Prefix operator--
-Time &Time::operator--()
+Time &operator--(const Time &time)
 {
-    return increment(*this, -1);
+    Time timeCopy = time;
+    return increment(timeCopy, -1);
 }
 
 // Postfix operator--
-Time Time::operator--(int)
+Time operator--(const Time &time, int)
 {
-    Time oldTime = *this;
-    --*this;
+    Time oldTime = time;
+    --time;
     return oldTime;
 }
 
-bool Time::operator>(const Time &time2) const
+bool operator>(const Time &timeRight, const Time &timeLeft)
 {
-    const Time &oldTime = *this;
-    int oldTimeInSec = oldTime.get_time_in_seconds();
-    int newTimeInSec = time2.get_time_in_seconds();
-    return oldTimeInSec > newTimeInSec;
+    int timeRightInSec = get_time_in_seconds(timeRight);
+    int timeLeftInSec = get_time_in_seconds(timeLeft);
+    return timeRightInSec > timeLeftInSec;
 }
 
-bool Time::operator>=(const Time &time2) const
+bool operator>=(const Time &timeRight, const Time &timeLeft)
 {
-    return *this > time2 || *this == time2;
+    return timeRight > timeLeft || timeRight == timeLeft;
 }
 
-bool Time::operator<(const Time &time2) const
+bool operator<(const Time &timeRight, const Time &timeLeft)
 {
-    const Time &oldTime = *this;
-    int oldTimeInSec = oldTime.get_time_in_seconds();
-    int newTimeInSec = time2.get_time_in_seconds();
-    return oldTimeInSec < newTimeInSec;
+    int timeRightInSec = get_time_in_seconds(timeRight);
+    int timeLeftInSec = get_time_in_seconds(timeLeft);
+    return timeRightInSec < timeLeftInSec;
 }
 
-bool Time::operator<=(const Time &time2) const
+bool operator<=(const Time &timeRight, const Time &timeLeft)
 {
-    return *this < time2 || *this == time2;
+    return timeRight < timeLeft || timeRight == timeLeft;
 }
 
-bool Time::operator==(const Time &time2) const
+bool operator==(const Time &timeRight, const Time &timeLeft)
 {
-    const Time &oldTime = *this;
-    int oldTimeInSec = oldTime.get_time_in_seconds();
-    int newTimeInSec = time2.get_time_in_seconds();
-    return oldTimeInSec == newTimeInSec;
+    int rightTimeInSeconds = get_time_in_seconds(timeRight);
+    int leftTimeInSeconds = get_time_in_seconds(timeLeft);
+    return rightTimeInSeconds == leftTimeInSeconds;
 }
 
-bool Time::operator!=(const Time &time2) const
+bool operator!=(const Time &timeRight, const Time &timeLeft)
 {
-    return !(*this == time2);
+    return !(timeRight == timeLeft);
 }
 
 ostream &operator<<(ostream &os, Time &time)
 {
-    os << time.to_string();
+    os << to_string(time);
     return os;
 }
 
@@ -143,20 +120,19 @@ istream &operator>>(istream &is, Time &time)
     catch (const std::exception &e)
     {
         is.setstate(std::ios_base::failbit);
-        std::cerr << e.what() << '\n';
     }
     return is;
 }
 
-string Time::to_string(bool shortFormat) const
+string to_string(const Time &time, bool shortFormat)
 {
     stringstream ss;
     string ampm;
-    Time formattedTime{shortFormat ? format_ampm(*this) : *this};
+    Time formattedTime{shortFormat ? format_ampm(time) : time};
 
     if (shortFormat)
     {
-        ampm = is_am() ? " am" : " pm";
+        ampm = is_am(time) ? " am" : " pm";
     }
 
     ss << setw(2) << setfill('0')
@@ -167,45 +143,46 @@ string Time::to_string(bool shortFormat) const
     return ss.str();
 }
 
-Time Time::format_ampm(Time time) const
+Time format_ampm(const Time &time)
 {
-    time.hour = time.hour % 12;
+    Time newTime{time};
+    newTime.hour = newTime.hour % 12;
 
     // Hour 0 should be 12
-    time.hour = time.hour == 0 ? 12 : time.hour;
+    newTime.hour = newTime.hour == 0 ? 12 : newTime.hour;
 
-    return time;
+    return newTime;
 }
 
-bool Time::is_valid() const
+bool is_valid(const Time &time)
 {
-    bool validHour = this->is_valid_hour();
-    bool validMinute = this->is_valid_minute();
-    bool validSecond = this->is_valid_second();
+    bool isValidHour = is_valid_hour(time.hour);
+    bool isValidMinute = is_valid_minute(time.minute);
+    bool isValidSecond = is_valid_second(time.second);
 
-    return (validHour && validMinute && validSecond);
+    return (isValidHour && isValidMinute && isValidSecond);
 }
-bool Time::is_valid_hour() const
+bool is_valid_hour(int hour)
 {
     return (hour >= 0 && hour <= 23);
 }
 
-bool Time::is_valid_minute() const
+bool is_valid_minute(int minute)
 {
     return (minute >= 0 && minute <= 59);
 }
 
-bool Time::is_valid_second() const
+bool is_valid_second(int second)
 {
     return (second >= 0 && second <= 59);
 }
 
-bool Time::is_am() const
+bool is_am(const Time &time)
 {
-    return (hour >= 0 && hour <= 11);
+    return (time.hour >= 0 && time.hour <= 11);
 }
 
-int Time::get_time_in_seconds() const
+int get_time_in_seconds(const Time &time)
 {
-    return hour * 3600 + minute * 60 + second;
+    return time.hour * 3600 + time.minute * 60 + time.second;
 }

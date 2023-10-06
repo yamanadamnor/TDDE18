@@ -31,28 +31,6 @@ void SortedList::insert(int value)
 }
 
 // Change the next ptr of the previous Node and the next prop of the new Node
-// void SortedList::insert_place(Node *currentNode, Node *newNode)
-// {
-//   if (currentNode == nullptr)
-//   {
-//     currentNode = newNode;
-//     return;
-//   };
-//   return;
-
-//   if (newNode->value < currentNode->value){
-//     newNode->next = currentNode->next;
-//     currentNode->next = newNode;
-//     return;
-//   } else if(newNode->value < currentNode->next->value) {
-//     newNode->next = currentNode->next;
-//     currentNode->next = newNode;
-//     return;
-//   }
-
-//   insert_place(currentNode->next, newNode);
-// }
-
 void SortedList::insert_place(Node *currentNode, Node *newNode)
 {
   // head: 0x0023 -> 0x0
