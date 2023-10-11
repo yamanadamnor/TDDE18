@@ -1,4 +1,6 @@
 #include <iostream>
+#include <sstream>
+#include <string>
 #include "sorted_list.hpp"
 using namespace std;
 
@@ -20,7 +22,8 @@ void SortedList::insert(int value)
     return;
   }
 
-  if (temp->value < head->value) {
+  if (temp->value < head->value)
+  {
     temp->next = head;
     head = temp;
     return;
@@ -42,12 +45,14 @@ void SortedList::insert_place(Node *currentNode, Node *newNode)
   // currentNode: 0x82312 -> 0x99384 // currentNodes address -> currentNodes värde
 
   // Check if currentNode is the last element
-  if (currentNode->next == nullptr) {
+  if (currentNode->next == nullptr)
+  {
     currentNode->next = newNode;
     return;
   }
 
-  if (newNode->value < currentNode->next->value) {
+  if (newNode->value < currentNode->next->value)
+  {
     newNode->next = currentNode->next;
     currentNode->next = newNode;
     return;
@@ -61,15 +66,21 @@ bool SortedList::is_empty()
   return head == nullptr;
 }
 
-void SortedList::print()
+string SortedList::print()
 {
   Node *curr{head};
+  std::stringstream ss{};
   while (curr != nullptr)
   {
-    cout << curr->value << " ";
+    ss << curr->value;
+    // Only add whitespace if not the last element
+    if (curr->next != nullptr)
+    {
+      ss << " ";
+    }
     curr = curr->next;
   }
-  cout << endl;
+  return ss.str();
 }
 
 int SortedList::size()

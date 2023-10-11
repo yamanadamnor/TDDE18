@@ -21,20 +21,30 @@
 // Test cases
 //=======================================================================
 
-TEST_CASE("Insert to list") {
-  SortedList l{};
-  l.insert(6);
-  l.insert(4);
-  l.insert(5);
-  l.insert(1);
-  l.print();
+TEST_CASE("Insering to list")
+{
+  SortedList list{};
+  SECTION("Calling order of insert should not matter")
+  {
+    list.insert(6);
+    list.insert(4);
+    list.insert(5);
+    list.insert(1);
+    CHECK(list.print() == "1 4 5 6");
+  };
+
+  SECTION("Inserting only one element")
+  {
+    list.insert(1);
+    CHECK(list.print() == "1");
+  };
 }
 
-TEST_CASE( "Create an empty list" ) {
-  SortedList l{};
-
-  REQUIRE( l.is_empty() == true );
-  REQUIRE( l.size() == 0 );
-}
-
+TEST_CASE("Creating empty list")
+{
+  SortedList list{};
+  REQUIRE(list.is_empty() == true);
+  REQUIRE(list.size() == 0);
+  REQUIRE(list.print() == "");
+};
 // It is your job to create new test cases and fully test your SortedList class

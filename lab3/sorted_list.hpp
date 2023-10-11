@@ -1,5 +1,6 @@
 #ifndef SORTEDLIST_H
 #define SORTEDLIST_H
+#include <string>
 
 class SortedList
 {
@@ -34,7 +35,7 @@ public:
   void remove(int index);
 
   // function that prints all the values in the list (the formatting must be readable),
-  void print();
+std::string print();
 
   // function that return the value stored at a specified index
   void at(int index);
