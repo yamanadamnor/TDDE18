@@ -6,28 +6,34 @@ class SortedList
 {
 public:
   // constructor
-  SortedList(): head(nullptr){};
+  SortedList() : head(nullptr){};
 
   // Copy constructor
-  // SortedList(SortedList const &list);
+  SortedList(const SortedList &list);
+
+  // Move constructor
+  SortedList(SortedList &&list);
 
   // destructor
-  // ~Sorted_list();
+  ~SortedList();
+
+  // Copy assignment operator
+  SortedList &operator=(const SortedList &refList);
+
+  // Move assignment operator
+  SortedList &operator=(SortedList &&refList);
 
   struct Node
   {
     int value;
     Node *next;
 
-    Node(int val=0): value(val), next(nullptr) {};
-    Node(int val, Node *temp): value(val), next(temp) {};
-
-    int get_value();
+    Node(int val = 0) : value(val), next(nullptr){};
+    Node(int val, Node *temp) : value(val), next(temp){};
   };
-
-
   // function that adds a value to the list (in sorted order)
-  void insert(int value);
+  void
+  insert(int value);
 
   void insert_place(Node *currentNode, Node *insertNode);
 
@@ -35,18 +41,21 @@ public:
   void remove(int index);
 
   // function that prints all the values in the list (the formatting must be readable),
-std::string print();
+  void print();
+
+  std::string to_string();
 
   // function that return the value stored at a specified index
-  void at(int index);
+  int at(int index);
 
   int size();
 
   bool is_empty();
 
-  Node *get_head();
-
 private:
+  // Function that deep copies rightList into this
+  void deepCopy(const SortedList &rightList);
+
   // Head pointer
   Node *head;
 };

@@ -4,24 +4,71 @@
 #include "sorted_list.hpp"
 using namespace std;
 
-int SortedList::Node::get_value()
+// Copy constructor
+SortedList::SortedList(const SortedList &refList) : head(nullptr)
 {
-  return value;
+  this->deepCopy(refList);
 }
 
-// Copy constructor
-// void SortedList::SortedList(SortedList list) {}
+// Move constructor
+SortedList::SortedList(SortedList &&refList)
+{
+  this->head = refList.head;
+  refList.head = nullptr;
+}
+
+SortedList &SortedList::operator=(SortedList &&refList)
+{
+  this->head = refList.head;
+  refList.head = nullptr;
+
+  return *this;
+}
+
+SortedList &SortedList::operator=(SortedList const &refList)
+{
+  delete this;
+  this->deepCopy(refList);
+
+  return *this;
+}
+
+void SortedList::deepCopy(const SortedList &rightList)
+{
+
+  Node *currRightList{rightList.head};
+
+  while (currRightList != nullptr)
+  {
+    insert(currRightList->value);
+    currRightList = currRightList->next;
+  }
+}
+
+SortedList::~SortedList()
+{
+  Node *curr{head};
+  while (curr != nullptr)
+  {
+    Node *next{curr->next};
+    delete curr;
+    curr = next;
+  }
+  head = nullptr;
+}
 
 void SortedList::insert(int value)
 {
   Node *temp{new Node{value}};
 
+  // Check if the list is empty
   if (head == nullptr)
   {
     head = temp;
     return;
   }
 
+  // Checks if the new value is less the heads
   if (temp->value < head->value)
   {
     temp->next = head;
@@ -30,20 +77,11 @@ void SortedList::insert(int value)
   }
 
   insert_place(head, temp);
-  // delete temp;
 }
 
 // Change the next ptr of the previous Node and the next prop of the new Node
 void SortedList::insert_place(Node *currentNode, Node *newNode)
 {
-  // head: 0x0023 -> 0x0
-  // currentNode: 0x82312 -> 0x0
-
-  // newnode: 0x99384
-
-  // 0x82312 = 0x99384 // ekvivalent med currentNode = newNode
-  // currentNode: 0x82312 -> 0x99384 // currentNodes address -> currentNodes värde
-
   // Check if currentNode is the last element
   if (currentNode->next == nullptr)
   {
@@ -61,12 +99,57 @@ void SortedList::insert_place(Node *currentNode, Node *newNode)
   insert_place(currentNode->next, newNode);
 }
 
+void SortedList::remove(int index)
+{
+
+  // Guard agaist out of range index
+  if (index > this->size() - 1 || index < 0)
+  {
+    return;
+  }
+
+  Node *curr{head};
+
+  // Remove the first element
+  if (index == 0)
+  {
+    head = head->next;
+    delete curr;
+    return;
+  }
+
+  int counter{0};
+  while (curr->next != nullptr)
+  {
+    if (counter + 1 == index)
+    {
+      Node *temp{curr->next};
+      curr->next = curr->next->next;
+      delete temp;
+      return;
+    }
+    curr = curr->next;
+    ++counter;
+  }
+
+  cout << "The last value should be: " << curr->next->value << endl;
+  // Remove the last element
+  Node *temp{curr->next};
+  curr->next = nullptr;
+  delete temp;
+}
+
 bool SortedList::is_empty()
 {
   return head == nullptr;
 }
 
-string SortedList::print()
+void SortedList::print()
+{
+  cout << this->to_string() << endl;
+}
+
+string SortedList::to_string()
 {
   Node *curr{head};
   std::stringstream ss{};
@@ -83,6 +166,22 @@ string SortedList::print()
   return ss.str();
 }
 
+int SortedList::at(int index)
+{
+  Node *curr{head};
+  for (int i = 0; i < this->size(); i++)
+  {
+    if (i == index)
+    {
+      return curr->value;
+    }
+    curr = curr->next;
+  }
+
+  // Undefined behaviour
+  return -1;
+}
+
 int SortedList::size()
 {
   int counter{0};
@@ -93,9 +192,4 @@ int SortedList::size()
     ++counter;
   }
   return counter;
-}
-
-SortedList::Node *SortedList::get_head()
-{
-  return head;
 }
