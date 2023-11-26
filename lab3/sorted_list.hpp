@@ -1,12 +1,44 @@
+// TODO: Complementary work needed: Be consistent in naming your files.
+
+// TODO: Complementary work needed: The Node type should be invisible and
+// inaccessible to programmers that use the list.
+// From assignment:
+// “The link class and any functions pertaining to it should thus be stashed
+// away and be inaccessible to the programmer.”
+
+// TODO: Complementary work needed: Function implementations should not be
+// done in the header file.
+//
+// (This includes when it is only a member initalizer list and an empty body)
+
+// TODO: Complementary work needed: Member functions that don't modify the
+// list should be declared const.
+
 #ifndef SORTEDLIST_H
 #define SORTEDLIST_H
 #include <string>
 
 class SortedList
 {
+private:
+  struct Node
+  {
+    int value;
+    Node *next;
+
+    Node(int val = 0) : value(val), next(nullptr){};
+    Node(int val, Node *temp) : value(val), next(temp){};
+  };
+
+  // Function that deep copies rightList into this
+  void deepCopy(const SortedList &rightList);
+
+  // Head pointer
+  Node *head;
+
 public:
   // constructor
-  SortedList() : head(nullptr){};
+  SortedList();
 
   // Copy constructor
   SortedList(const SortedList &list);
@@ -23,17 +55,9 @@ public:
   // Move assignment operator
   SortedList &operator=(SortedList &&refList);
 
-  struct Node
-  {
-    int value;
-    Node *next;
 
-    Node(int val = 0) : value(val), next(nullptr){};
-    Node(int val, Node *temp) : value(val), next(temp){};
-  };
   // function that adds a value to the list (in sorted order)
-  void
-  insert(int value);
+  void insert(int value);
 
   void insert_place(Node *currentNode, Node *insertNode);
 
@@ -52,12 +76,6 @@ public:
 
   bool is_empty();
 
-private:
-  // Function that deep copies rightList into this
-  void deepCopy(const SortedList &rightList);
-
-  // Head pointer
-  Node *head;
 };
 
 #endif

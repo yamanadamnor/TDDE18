@@ -1,17 +1,30 @@
-// This test program uses a test framework supporting TDD and BDD.
-// You are not required to use the framework, but encouraged to.
-// Code:
-// https://github.com/philsquared/Catch.git
-// Documentation:
-// https://github.com/philsquared/Catch/blob/master/docs/tutorial.md
+// Good use of SECTION() and some thoguhtful test cases.
+// But a couple of things are missing.
 
-// You ARE however required to implement all test cases outlined here,
-// even if you do it by way of your own function for each case.  You
-// are recommended to solve the cases in order, and rerun all tests
-// after you modify your code.
+// TODO: Complementary work needed: Test cases insufficient, what if a list is 
+// empty for all functions? 
 
-// This define lets Catch create the main test program
-// (Must be in only one place!)
+// Comment: Standard-wise, it is undefined what happens when accessing an object
+// after a std::move.
+//
+// After
+// SortedList r{std::move(l)};
+// we can only make assertions about "r".
+
+// TODO: Complementary work needed: Test cases insufficient, you should test
+// all functions that you have implemented.
+
+// TODO: Complementary work needed: Program crashes with SIGABRT and valgrind
+// produces warnings when running certain tests.
+//
+// My suggestion is to add test cases, both the ones mentioned in this file
+// but also ones that test other TODOs, one at a time until you find which
+// one(s) cause your program to fail. After that, start fixing.
+// Finally add any other tests you can think of and finally check your program
+// with valgrind before submitting again.
+
+// TODO: Complementary work needed: unnecessary include 
+
 #include "catch.hpp"
 #include "sorted_list.hpp"
 #include <iostream>

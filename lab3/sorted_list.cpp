@@ -1,8 +1,27 @@
+// TODO: Complementary work needed: Your assignment operator(s) don’t  
+// handle self-assignment, as in a_list = a_list.
+
+// TODO: Complementary work needed: Potential memory leaks.  You never 
+// handle the case where *this contain elements from before the 
+// assignment.
+// Hint: When will other be destructed? Can we use that to destroy the 
+// previous elements of *this? 
+
+// TODO: Complementary work needed: Don’t explicitly call the destructor, it  
+// is used only when you want to destroy the object.
+//
+// Hint: If you have a need for a “clear” list, create a helper function that  
+// does just that.
+
 #include <iostream>
 #include <sstream>
 #include <string>
 #include "sorted_list.hpp"
 using namespace std;
+
+
+// constructor
+SortedList::SortedList() : head(nullptr){};
 
 // Copy constructor
 SortedList::SortedList(const SortedList &refList) : head(nullptr)
