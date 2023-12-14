@@ -2,15 +2,17 @@
 #define CAPACITOR_H
 #include "Component.hpp"
 
-class Capacitor: Component {
-    private:
-        double const stored_charge;
-        double const capacitance;
+class Capacitor : public Component {
+private:
+  double stored_charge;
+  double const capacitance;
 
-    public:
-        Capacitor();
-        double getCurrent();
-        double getVoltage();
+public:
+  Capacitor(std::string &&name, double capacitance, double stored_charge,
+            Connection *positive, Connection *negative);
+  double getCurrent() const;
+  void simulate(double time_step);
+  void setStoredCharge(double charge);
 };
 
 #endif
