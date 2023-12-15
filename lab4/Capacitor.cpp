@@ -8,7 +8,7 @@ Capacitor::Capacitor(std::string &&name, double capacitance,
 }
 
 double Capacitor::getCurrent() const {
-  return capacitance * (getVoltage() - stored_charge);
+  return (getVoltage() - stored_charge) * capacitance;
 }
 
 void Capacitor::setStoredCharge(double charge) { stored_charge = charge; }
