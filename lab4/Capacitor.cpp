@@ -3,26 +3,24 @@
 #include "Capacitor.hpp"
 
 Capacitor::Capacitor(std::string &&name, double capacitance,
-                     double stored_charge, Connection *positive,
-                     Connection *negative)
-    : Component(std::move(name), positive, negative), capacitance(capacitance),
-      stored_charge(stored_charge) {}
+                     Connection *positive, Connection *negative)
+    : Component(std::move(name), positive, negative), capacitance(capacitance) {
+}
 
 double Capacitor::getCurrent() const {
   return capacitance * (getVoltage() - stored_charge);
 }
 
-void Capacitor::setStoredCharge(double charge) {
-  this->stored_charge = charge;
-}
+void Capacitor::setStoredCharge(double charge) { stored_charge = charge; }
 
 void Capacitor::simulate(double time_step) {
   double positiveCharge = positive->getCharge();
   double negativeCharge = negative->getCharge();
   double potential_difference{getVoltage()};
-  double chargeToStore{capacitance * (potential_difference - stored_charge) * time_step};
+  double chargeToStore{capacitance * (potential_difference - stored_charge) *
+                       time_step};
 
-  this->setStoredCharge(stored_charge + chargeToStore);
+  setStoredCharge(stored_charge + chargeToStore);
 
   if (positiveCharge > negativeCharge) {
     positive->setCharge(positiveCharge - chargeToStore);
