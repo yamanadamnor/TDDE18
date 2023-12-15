@@ -13,6 +13,7 @@ public:
   Resistor(const std::string &&name, double resistance, Connection *positive,
            Connection *negative);
   double getCurrent() const;
+  double getVoltage() const;
   void simulate(double time_step);
 };
 #endif

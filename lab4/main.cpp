@@ -54,10 +54,10 @@ int main(int argc, char *argv[]) {
   double battery_voltage{std::stod(argv[4])};
 
   network1(iterations, lines_to_print, time_step, battery_voltage);
-  std::cout << std::endl;
-  network2(iterations, lines_to_print, time_step, battery_voltage);
-  std::cout << std::endl;
-  network3(iterations, lines_to_print, time_step, battery_voltage);
+  // std::cout << std::endl;
+  // network2(iterations, lines_to_print, time_step, battery_voltage);
+  // std::cout << std::endl;
+  // network3(iterations, lines_to_print, time_step, battery_voltage);
 
 
   return 0;

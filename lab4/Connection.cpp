@@ -1,7 +1,7 @@
 #include "Connection.hpp"
 
 double Connection::getCharge() const {
-    return this->charge;
+    return charge;
 };
 
 void Connection::setCharge(double charge) {

@@ -5,14 +5,19 @@ Resistor::Resistor(const std::string &&name, double resistance,
     : Component(std::move(name), positive, negative), resistance(resistance) {}
 
 double Resistor::getCurrent() const {
+  return 0;
   return (getVoltage() / resistance);
+}
+
+double Resistor::getVoltage() const {
+  return 0;
 }
 
 void Resistor::simulate(double time_step) {
   double positiveCharge = positive->getCharge();
   double negativeCharge = negative->getCharge();
   double potential_difference{getVoltage()};
-  double chargeToMove{(potential_difference / resistance) * time_step};
+  double chargeToMove{(potential_difference * time_step / resistance)};
 
   // Positive terminal is highest charged terminal
   if (positiveCharge > negativeCharge) {

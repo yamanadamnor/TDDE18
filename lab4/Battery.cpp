@@ -2,7 +2,6 @@
 
 Battery::Battery(const std::string &&name, double voltage, Connection *positive, Connection *negative)
     : Component(std::move(name), positive, negative), voltage(voltage) {
-  this->setCharge(this->voltage);
 };
 
 void Battery::setCharge(double voltage) {
@@ -16,6 +15,4 @@ double Battery::getCurrent() const {
 };
 
 // Set the charge on every simulation step to never run out
-void Battery::simulate(double time_step) {
-  this->setCharge(this->voltage);
-}
+void Battery::simulate(double time_step) { setCharge(voltage); }

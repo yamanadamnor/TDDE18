@@ -2,8 +2,8 @@
 
 #include <string>
 
-Component::Component(const std::string &&name, Connection *negative, Connection *positive)
-    : name(name), negative(negative), positive(positive) {}
+Component::Component(const std::string &&name, Connection *positive, Connection *negative)
+    : name(name), positive(positive), negative(negative) {}
 
 double Component::getVoltage() const {
   return std::abs(positive->getCharge() - negative->getCharge());

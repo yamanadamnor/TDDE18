@@ -10,19 +10,20 @@ void Network::addComponent(Component *comp) { network.push_back(comp); }
 void Network::simulate(int iterations, int lines_to_print,
                        double time_step) const {
   int print_step{iterations / lines_to_print};
-  cout << this->getHeader() << endl;
+  cout << getHeader() << endl;
 
   for (int it{0}; it < iterations; it++) {
     stringstream component_state;
     stringstream component_names;
     // component_state << setw(12 * network.size()) << right;
 
-    for (int i{0}; i < network.size(); i++) {
-      // Run the simulation with time_step on every component in the network
-      // vector
-      network[i]->simulate(time_step);
-      component_state << this->getComponentState(network[i]);
+    for (Component *component : network) {
+
+      component->simulate(time_step);
+      component_state << getComponentState(component);
     }
+    // Run the simulation with time_step on every component in the network
+    // vector
     if (it % print_step == 0) {
       cout << component_state.str() << endl;
     }
