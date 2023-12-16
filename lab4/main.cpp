@@ -37,7 +37,7 @@ void network3(int iterations, int lines_to_print, double time_step, double batte
   network.addComponent(new Battery("Bat", battery_voltage, &P, &N));
   network.addComponent(new Resistor("R1", 150.0, &P, &L));
   network.addComponent(new Resistor("R2", 50.0, &P, &R));
-  network.addComponent(new Capacitor("C3", 1.0,&R, &L));
+  network.addComponent(new Capacitor("C3", 1.0,&L, &R));
   network.addComponent(new Resistor("R4", 300.0, &L, &N));
   network.addComponent(new Capacitor("C5", 0.75, &N, &R));
 
@@ -54,10 +54,10 @@ int main(int argc, char *argv[]) {
   double battery_voltage{std::stod(argv[4])};
 
   network1(iterations, lines_to_print, time_step, battery_voltage);
-  // std::cout << std::endl;
-  // network2(iterations, lines_to_print, time_step, battery_voltage);
-  // std::cout << std::endl;
-  // network3(iterations, lines_to_print, time_step, battery_voltage);
+  std::cout << std::endl;
+  network2(iterations, lines_to_print, time_step, battery_voltage);
+  std::cout << std::endl;
+  network3(iterations, lines_to_print, time_step, battery_voltage);
 
 
   return 0;

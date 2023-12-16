@@ -5,25 +5,36 @@
 #include <sstream>
 using namespace std;
 
+Network::~Network() {
+  for (Component *component : components) {
+    delete component;
+  }
+}
+
 void Network::addComponent(Component *comp) { components.push_back(comp); }
 
-void Network::simulate(int iterations, int lines_to_print, double time_step) const {
+void Network::simulate(int iterations, int lines_to_print,
+                       double time_step) const {
   int print_step{iterations / lines_to_print};
   cout << getHeader() << endl;
 
   for (int it{0}; it < iterations; it++) {
     stringstream component_state;
 
-    for (Component *component : components) {
-      component->simulate(time_step);
-      component_state << getComponentState(component);
-    }
+    advance(time_step);
+    component_state << getComponentsState();
 
     // Run the simulation with time_step on every component in the network
     // vector
     if (it % print_step == 0) {
       cout << component_state.str() << endl;
     }
+  }
+}
+
+void Network::advance(double time_step) const {
+  for (Component *component : components) {
+    component->simulate(time_step);
   }
 }
 
@@ -43,10 +54,12 @@ const std::string Network::getHeader() const {
   return names.str();
 }
 
-const std::string Network::getComponentState(Component *component) const {
+const std::string Network::getComponentsState() const {
   stringstream ss;
   ss << fixed << right << setprecision(2);
-  ss << setw(6) << component->getVoltage();
-  ss << setw(6) << component->getCurrent();
+  for (Component *component : components) {
+    ss << setw(6) << component->getVoltage();
+    ss << setw(6) << component->getCurrent();
+  }
   return ss.str();
 }

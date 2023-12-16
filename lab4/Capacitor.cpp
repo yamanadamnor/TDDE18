@@ -14,19 +14,18 @@ double Capacitor::getCurrent() const {
 void Capacitor::setStoredCharge(double charge) { stored_charge = charge; }
 
 void Capacitor::simulate(double time_step) {
-  double positiveCharge = positive->getCharge();
-  double negativeCharge = negative->getCharge();
+  double positive_charge = positive->getCharge();
+  double negative_charge = negative->getCharge();
   double potential_difference{getVoltage()};
-  double chargeToStore{capacitance * (potential_difference - stored_charge) *
-                       time_step};
+  double chargeToStore{capacitance * time_step * (potential_difference - stored_charge)};
 
-  setStoredCharge(stored_charge + chargeToStore);
 
-  if (positiveCharge > negativeCharge) {
-    positive->setCharge(positiveCharge - chargeToStore);
-    negative->setCharge(negativeCharge + chargeToStore);
+  if (positive_charge > negative_charge) {
+    positive->setCharge(positive_charge - chargeToStore);
+    negative->setCharge(negative_charge + chargeToStore);
   } else {
-    positive->setCharge(positiveCharge + chargeToStore);
-    negative->setCharge(negativeCharge - chargeToStore);
+    positive->setCharge(positive_charge + chargeToStore);
+    negative->setCharge(negative_charge - chargeToStore);
   }
+  setStoredCharge(stored_charge + chargeToStore);
 }

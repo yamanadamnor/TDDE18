@@ -2,7 +2,8 @@
 
 #include <string>
 
-Component::Component(const std::string &&name, Connection *positive, Connection *negative)
+Component::Component(const std::string &&name, Connection *positive,
+                     Connection *negative)
     : name(name), positive(positive), negative(negative) {}
 
 double Component::getVoltage() const {
@@ -10,3 +11,9 @@ double Component::getVoltage() const {
 }
 
 const std::string &Component::getName() const { return name; }
+
+double Component::getCurrent() const {
+  return 0;
+}
+
+void Component::simulate(double time_step) {}
