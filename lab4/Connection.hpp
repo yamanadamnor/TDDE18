@@ -2,10 +2,13 @@
 #define TERMINAL_H
 
 class Connection {
-public:
+private:
   double charge;
-  void setCharge(double charge);
+
+public:
+  Connection();
   double getCharge() const;
+  void setCharge(double charge);
 };
 
 #endif
