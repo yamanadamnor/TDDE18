@@ -5,7 +5,7 @@
 #include <sstream>
 using namespace std;
 
-void Network::addComponent(Component *comp) { network.push_back(comp); }
+void Network::addComponent(Component *comp) { components.push_back(comp); }
 
 void Network::simulate(int iterations, int lines_to_print, double time_step) const {
   int print_step{iterations / lines_to_print};
@@ -14,7 +14,7 @@ void Network::simulate(int iterations, int lines_to_print, double time_step) con
   for (int it{0}; it < iterations; it++) {
     stringstream component_state;
 
-    for (Component *component : network) {
+    for (Component *component : components) {
       component->simulate(time_step);
       component_state << getComponentState(component);
     }
@@ -31,7 +31,7 @@ const std::string Network::getHeader() const {
   stringstream names;
   stringstream columns;
 
-  for (Component *component : network) {
+  for (Component *component : components) {
     names << setw(12) << right;
     names << component->getName();
     columns << setw(6) << "Volt";
