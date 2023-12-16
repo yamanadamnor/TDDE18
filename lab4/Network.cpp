@@ -5,7 +5,11 @@
 #include <sstream>
 using namespace std;
 
-Network::~Network() { }
+Network::~Network() {
+  for (Component *component : components) {
+    delete component;
+  }
+}
 
 void Network::addComponent(Component *comp) { components.push_back(comp); }
 
