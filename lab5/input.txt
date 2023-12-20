@@ -1,0 +1,3 @@
+Programming is fun Especially when you get to use the STL
+which stands for the Standard Template Library which is the
+name of the C++ standard library
