@@ -3,18 +3,57 @@
 #include <iomanip>
 #include <iostream>
 #include <map>
-#include <numeric>
+#include <stdexcept>
 #include <string>
 #include <vector>
 using namespace std;
 
-void printError(const string &message) { cerr << message << endl; }
+void printHelp() {
+  cerr << "./a.out <input file> FLAGS" << endl;
 
+  cerr << left << setw(35);
+  cerr << "FLAGS: " << endl;
+  cerr << setw(35);
+  cerr << "--print";
+  cerr << "Prints every word in <input file> separated by spaces" << endl;
+
+  cerr << setw(35);
+  cerr << "--frequency";
+  cerr << "Prints frequency table of <input file> in descending order of "
+          "occurance"
+       << endl;
+
+  cerr << setw(35);
+  cerr << "--table";
+  cerr << "Prints frequency table of <input file> in lexicographical order"
+       << endl;
+
+  cerr << setw(35);
+  cerr << "--substitute=<oldWord>+<newWord>";
+  cerr << "Substitutes every occurance of <oldWord> by <newWord> in content "
+          "provided by <input file>"
+       << endl;
+
+  cerr << setw(35);
+  cerr << "--remove=<word>";
+  cerr
+      << "Removes every occurance of <word> in content provided by <input file>"
+      << endl;
+}
+
+void printError(const string &message) {
+  cerr << message << endl;
+  cerr << endl;
+  printHelp();
+}
+
+// Return the size of the longest word from text vector of strings
 unsigned long getLargestWidth(const vector<string> &text) {
   auto longestComp = [](const string &left, const string &right) {
     return right.size() > left.size();
   };
 
+  // Find the longest word
   auto longestWord{max_element(text.begin(), text.end(), longestComp)};
 
   return longestWord->size();
@@ -71,6 +110,7 @@ void print(const vector<string> &text,
            });
 }
 
+// Remove every instance of word in text vector of strings
 void remove(vector<string> &text, const string &remove_word) {
   auto iterator{std::remove(text.begin(), text.end(), remove_word)};
   text.erase(iterator, text.end());
@@ -132,16 +172,18 @@ void executeOperation(vector<string> &text, const string &flag,
   } else if (flag == "--remove") {
     remove(text, parameter);
   } else {
+    throw invalid_argument("Please provide a valid FLAG");
   };
 }
 
 int main(int argc, char *argv[]) {
-  // TODO: Open the files that is
-  // specified as the first command line argument
+  if (argc < 3) {
+    printError("Please provide an input file and atleast on FLAG");
+    return -1;
+  }
+
   string filename{argv[1]};
   vector<string> arguments{argv + 2, argv + argc};
-
-  // cout << "filename: " << filename << endl;
 
   fstream filestream{filename};
   if (!filestream.is_open()) {
@@ -154,7 +196,6 @@ int main(int argc, char *argv[]) {
   istream_iterator<string> end;
 
   copy(input, end, back_inserter(text));
-
   auto handle_arguments = [&text](string &arg) {
     string::size_type split_at{arg.find('=')};
     bool found_equal = split_at != string::npos;
@@ -163,8 +204,13 @@ int main(int argc, char *argv[]) {
     executeOperation(text, flag, param);
   };
 
-  // Run corrosponding function to the each flag from command line arguments
-  for_each(arguments.begin(), arguments.end(), handle_arguments);
+  try {
+    // Run corrosponding function to the each flag from command line arguments
+    for_each(arguments.begin(), arguments.end(), handle_arguments);
+  } catch (invalid_argument &e) {
+    printError(e.what());
+    return -1;
+  }
 
   filestream.close();
   return 0;
