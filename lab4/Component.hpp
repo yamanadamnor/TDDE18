@@ -17,8 +17,8 @@ public:
   // Virtual destructor
   // virtual ~Component();
 
-  virtual void simulate(double time_step);
-  virtual double getCurrent() const;
+  virtual void simulate(double time_step) = 0;
+  virtual double getCurrent() const = 0;
   double getVoltage() const;
 
   const std::string &getName() const;
