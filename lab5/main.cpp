@@ -3,21 +3,24 @@
 #include <iomanip>
 #include <iostream>
 #include <map>
+#include <numeric>
 #include <string>
 #include <vector>
 using namespace std;
 
 void printError(const string &message) { cerr << message << endl; }
 
-unsigned int getLargestWidth(const vector<string> &text) {
-  unsigned int largest_width{0};
-  for_each(text.begin(), text.end(), [&largest_width](const auto &word) {
-    word.size() > largest_width ? largest_width = word.size() : largest_width;
-  });
-  return largest_width;
+unsigned long getLargestWidth(const vector<string> &text) {
+  auto longestComp = [](const string &left, const string &right) {
+    return right.size() > left.size();
+  };
+
+  auto longestWord{max_element(text.begin(), text.end(), longestComp)};
+
+  return longestWord->size();
 }
 
-map<string, int> getWordFrequencyMap(vector<string> &text) {
+map<string, int> getWordFrequencyMap(const vector<string> &text) {
   map<string, int> word_frequency;
 
   // Fill the map with every unique occurance of eache word in text vector
@@ -41,7 +44,7 @@ void print(const vector<string> &text) {
 // Prints every element in word_frequency map of type <string, int>
 void print(const vector<string> &text, const map<string, int> &word_frequency,
            bool left_alignment = true) {
-  unsigned int width{getLargestWidth(text)};
+  unsigned long width{getLargestWidth(text)};
   const auto alignment{left_alignment ? left : right};
   for_each(word_frequency.begin(), word_frequency.end(),
            [&width, &alignment](const auto word) {
@@ -57,7 +60,7 @@ void print(const vector<string> &text, const map<string, int> &word_frequency,
 void print(const vector<string> &text,
            const vector<pair<string, int>> &word_frequency,
            bool left_alignment = true) {
-  unsigned int width{getLargestWidth(text)};
+  unsigned long width{getLargestWidth(text)};
   const auto alignment{left_alignment ? left : right};
   for_each(word_frequency.begin(), word_frequency.end(),
            [&width, &alignment](const auto word) {
