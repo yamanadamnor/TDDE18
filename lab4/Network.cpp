@@ -22,11 +22,11 @@ void Network::simulate(int iterations, int lines_to_print,
     stringstream component_state;
 
     advance(time_step);
-    component_state << getComponentsState();
 
     // Run the simulation with time_step on every component in the network
     // vector
     if (it % print_step == 0) {
+      component_state << getComponentsState();
       cout << component_state.str() << endl;
     }
   }
