@@ -162,11 +162,11 @@ void executeOperation(vector<string> &text, const string &flag,
   // cout << "flag: " << flag << endl;
   // cout << "parameter: " << parameter << endl;
 
-  if (flag == "--print") {
+  if (flag == "--print" && parameter == "") {
     print(text);
-  } else if (flag == "--frequency") {
+  } else if (flag == "--frequency" && parameter == "") {
     frequency(text);
-  } else if (flag == "--table") {
+  } else if (flag == "--table" && parameter == "") {
     table(text);
   } else if (flag == "--substitute") {
     substitute(text, parameter);
