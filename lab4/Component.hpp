@@ -12,10 +12,11 @@ protected:
 
 public:
   // Component constructor
-  Component(const std::string &&name, Connection *positive, Connection *negative);
- 
+  Component(const std::string &&name, Connection *positive,
+            Connection *negative);
+
   // Virtual destructor
-  // virtual ~Component();
+  virtual ~Component() = default;
 
   virtual void simulate(double time_step) = 0;
   virtual double getCurrent() const = 0;
