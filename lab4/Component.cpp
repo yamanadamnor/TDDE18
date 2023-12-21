@@ -15,5 +15,3 @@ const std::string &Component::getName() const { return name; }
 double Component::getCurrent() const {
   return 0;
 }
-
-void Component::simulate(double time_step) {}
