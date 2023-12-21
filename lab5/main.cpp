@@ -115,7 +115,7 @@ void print(const vector<string> &text,
 void remove(vector<string> &text, const string &remove_word) {
   auto iterator{std::remove(text.begin(), text.end(), remove_word)};
   text.erase(iterator, text.end());
-};
+}
 
 vector<pair<string, int>>
 getSortedMapByValues(map<string, int> &word_frequency) {
