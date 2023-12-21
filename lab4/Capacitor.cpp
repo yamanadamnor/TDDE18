@@ -4,7 +4,7 @@
 
 Capacitor::Capacitor(std::string &&name, double capacitance,
                      Connection *positive, Connection *negative)
-    : Component(std::move(name), positive, negative), capacitance(capacitance), stored_charge(0) {
+    : Component(std::move(name), positive, negative), stored_charge(0), capacitance(capacitance) {
 }
 
 double Capacitor::getCurrent() const {
