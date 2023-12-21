@@ -13,4 +13,4 @@ void Battery::setCharge() const {
 double Battery::getCurrent() const { return 0; }
 
 // Set the charge on every simulation step to never run out
-void Battery::simulate(double time_step) { setCharge(); }
+void Battery::simulate(double) { setCharge(); }
