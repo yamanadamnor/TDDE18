@@ -5,8 +5,10 @@
 #include "Capacitor.hpp"
 #include "Network.hpp"
 #include "Resistor.hpp"
+using namespace std;
 
-void network1(int iterations, int lines_to_print, double time_step, double battery_voltage) {
+void network1(int iterations, int lines_to_print, double time_step,
+              double battery_voltage) {
   Network network;
   Connection P, N, R124, R23;
   network.addComponent(new Battery("Bat", battery_voltage, &P, &N));
@@ -18,7 +20,8 @@ void network1(int iterations, int lines_to_print, double time_step, double batte
   network.simulate(iterations, lines_to_print, time_step);
 }
 
-void network2(int iterations, int lines_to_print, double time_step, double battery_voltage) {
+void network2(int iterations, int lines_to_print, double time_step,
+              double battery_voltage) {
   Network network;
   Connection P, N, L, R;
   network.addComponent(new Battery("Bat", battery_voltage, &P, &N));
@@ -31,34 +34,55 @@ void network2(int iterations, int lines_to_print, double time_step, double batte
   network.simulate(iterations, lines_to_print, time_step);
 }
 
-void network3(int iterations, int lines_to_print, double time_step, double battery_voltage) {
+void network3(int iterations, int lines_to_print, double time_step,
+              double battery_voltage) {
   Network network;
   Connection P, N, L, R;
   network.addComponent(new Battery("Bat", battery_voltage, &P, &N));
   network.addComponent(new Resistor("R1", 150.0, &P, &L));
   network.addComponent(new Resistor("R2", 50.0, &P, &R));
-  network.addComponent(new Capacitor("C3", 1.0,&L, &R));
+  network.addComponent(new Capacitor("C3", 1.0, &L, &R));
   network.addComponent(new Resistor("R4", 300.0, &L, &N));
   network.addComponent(new Capacitor("C5", 0.75, &N, &R));
 
   network.simulate(iterations, lines_to_print, time_step);
 }
 
+void printHelp() {
+  cerr << "./a.out ";
+  cerr << "<INT iterations> ";
+  cerr << "<INT lines_to_print>";
+  cerr << "<DOUBLE time_step>";
+  cerr << "<DOUBLE battery_voltage>";
+  cerr << endl;
+}
+
 int main(int argc, char *argv[]) {
   if (argc != 5) {
-    std::cout << "Please provide only four arguments" << std::endl;
+    cerr << "Please provide only four arguments" << endl;
+    printHelp();
+    return -1;
   }
-  int iterations{std::stoi(argv[1])};
-  int lines_to_print{std::stoi(argv[2])};
-  double time_step{std::stod(argv[3])};
-  double battery_voltage{std::stod(argv[4])};
+  int iterations{};
+  int lines_to_print{};
+  double time_step{};
+  double battery_voltage{};
+
+  try {
+    iterations = stoi(argv[1]);
+    lines_to_print = stoi(argv[2]);
+    time_step = stod(argv[3]);
+    battery_voltage = stod(argv[4]);
+  } catch (invalid_argument &e) {
+    cerr << e.what() << endl;
+    return -1;
+  }
 
   network1(iterations, lines_to_print, time_step, battery_voltage);
-  std::cout << std::endl;
+  cout << endl;
   network2(iterations, lines_to_print, time_step, battery_voltage);
-  std::cout << std::endl;
+  cout << endl;
   network3(iterations, lines_to_print, time_step, battery_voltage);
-
 
   return 0;
 }
