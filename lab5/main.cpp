@@ -10,34 +10,34 @@
 using namespace std;
 
 void printHelp() {
-  cerr << "./a.out <input file> FLAGS" << endl;
+  cout << "./a.out <input file> FLAGS" << endl;
 
-  cerr << left << setw(35);
-  cerr << "FLAGS: " << endl;
-  cerr << setw(35);
-  cerr << "--print";
-  cerr << "Prints every word in <input file> separated by spaces" << endl;
+  cout << left << setw(35);
+  cout << "FLAGS: " << endl;
+  cout << setw(35);
+  cout << "--print";
+  cout << "Prints every word in <input file> separated by spaces" << endl;
 
-  cerr << setw(35);
-  cerr << "--frequency";
-  cerr << "Prints frequency table of <input file> in descending order of "
+  cout << setw(35);
+  cout << "--frequency";
+  cout << "Prints frequency table of <input file> in descending order of "
           "occurance"
        << endl;
 
-  cerr << setw(35);
-  cerr << "--table";
-  cerr << "Prints frequency table of <input file> in lexicographical order"
+  cout << setw(35);
+  cout << "--table";
+  cout << "Prints frequency table of <input file> in lexicographical order"
        << endl;
 
-  cerr << setw(35);
-  cerr << "--substitute=<oldWord>+<newWord>";
-  cerr << "Substitutes every occurance of <oldWord> by <newWord> in content "
+  cout << setw(35);
+  cout << "--substitute=<oldWord>+<newWord>";
+  cout << "Substitutes every occurance of <oldWord> by <newWord> in content "
           "provided by <input file>"
        << endl;
 
-  cerr << setw(35);
-  cerr << "--remove=<word>";
-  cerr
+  cout << setw(35);
+  cout << "--remove=<word>";
+  cout
       << "Removes every occurance of <word> in content provided by <input file>"
       << endl;
 }
@@ -49,72 +49,25 @@ void printError(const string &message) {
 }
 
 // Return the size of the longest word from text vector of strings
-unsigned long getLargestWidth(const vector<string> &text) {
-  auto longestComp = [](const string &left, const string &right) {
-    return right.size() > left.size();
+unsigned long getLargestWidth(const map<string, int> &word_frequency) {
+  auto longestComp = [](const auto &left, const auto &right) {
+    return right.first.size() > left.first.size();
   };
 
   // Find the longest word
-  auto longestWord{max_element(text.begin(), text.end(), longestComp)};
+  auto longestWord{
+      max_element(word_frequency.begin(), word_frequency.end(), longestComp)};
 
-  return longestWord->size();
+  return longestWord->first.size();
 }
 
 map<string, int> getWordFrequencyMap(const vector<string> &text) {
   map<string, int> word_frequency;
 
   // Fill the map with every unique occurance of eache word in text vector
-  for_each(text.begin(), text.end(), [&word_frequency](const auto &word) {
-    auto already_present{word_frequency.count(word)};
-
-    // Add word if not present in word_frequency otherwise increment the value
-    // of the key == word
-    already_present == 0 ? word_frequency[word] = 1 : word_frequency[word]++;
-  });
-  return word_frequency;
-}
-
-// Prints every element in text vector with space as delimiter
-void print(const vector<string> &text) {
   for_each(text.begin(), text.end(),
-           [](const string &word) { cout << word << " "; });
-  cout << endl;
-}
-
-// Prints every element in word_frequency map of type <string, int>
-void print(const vector<string> &text, const map<string, int> &word_frequency,
-           bool left_alignment = true) {
-  unsigned long width{getLargestWidth(text)};
-  const auto alignment{left_alignment ? left : right};
-  for_each(word_frequency.begin(), word_frequency.end(),
-           [&width, &alignment](const auto word) {
-             cout << alignment << setw(width);
-             cout << word.first << " ";
-             cout << word.second;
-             cout << endl;
-           });
-}
-
-// Prints every element in word_frequency vector containing elements of type
-// pair<string, int>
-void print(const vector<string> &text,
-           const vector<pair<string, int>> &word_frequency,
-           bool left_alignment = true) {
-  unsigned long width{getLargestWidth(text)};
-  const auto alignment{left_alignment ? left : right};
-  for_each(word_frequency.begin(), word_frequency.end(),
-           [&width, &alignment](const auto word) {
-             cout << alignment << setw(width);
-             cout << word.first << " ";
-             cout << word.second;
-             cout << endl;
-           });
-}
-
-// Remove every instance of word in text vector of strings
-void remove(vector<string> &text, const string &remove_word) {
-  auto iterator{std::remove(text.begin(), text.end(), remove_word)};
-  text.erase(iterator, text.end());
+           [&word_frequency](const auto &word) { word_frequency[word]++; });
+  return word_frequency;
 }
 
 vector<pair<string, int>>
@@ -130,16 +83,54 @@ getSortedMapByValues(map<string, int> &word_frequency) {
   return sorted_by_value;
 }
 
+// Prints every element in text vector with space as delimiter
+void print(const vector<string> &text) {
+  copy(text.begin(), text.end(), ostream_iterator<string>(cout, " "));
+}
+
+// Prints every element in word_frequency map in lexicographical order by
+// default
+void print(const map<string, int> &word_frequency, bool left_alignment = true,
+           bool sort_by_value = false) {
+
+  unsigned long width{getLargestWidth(word_frequency)};
+  const auto alignment{left_alignment ? left : right};
+  vector<pair<string, int>> word_frequency_vector;
+
+  // Copy the content of word_frequency to word_frequency_vector
+  copy(word_frequency.begin(), word_frequency.end(),
+       back_inserter(word_frequency_vector));
+
+  if (sort_by_value) {
+    sort(word_frequency_vector.begin(), word_frequency_vector.end(),
+         [](const auto &left, const auto &right) {
+           return left.second > right.second;
+         });
+  }
+
+  for_each(word_frequency.begin(), word_frequency.end(),
+           [&width, &alignment](const auto word) {
+             cout << alignment << setw(width);
+             cout << word.first << " ";
+             cout << word.second;
+             cout << endl;
+           });
+}
+
+// Remove every instance of word in text vector of strings
+void remove(vector<string> &text, const string &remove_word) {
+  auto iterator{std::remove(text.begin(), text.end(), remove_word)};
+  text.erase(iterator, text.end());
+}
+
 void frequency(vector<string> &text) {
   map<string, int> word_frequency{getWordFrequencyMap(text)};
-  vector<pair<string, int>> sorted_word_frequency{
-      getSortedMapByValues(word_frequency)};
-  print(text, sorted_word_frequency, false);
+  print(word_frequency, false, true);
 }
 
 void table(vector<string> &text) {
   map<string, int> word_frequency{getWordFrequencyMap(text)};
-  print(text, word_frequency);
+  print(word_frequency);
 }
 
 void substitute(vector<string> &text, const string &parameter) {
@@ -153,14 +144,17 @@ void substitute(vector<string> &text, const string &parameter) {
   // like remove()
   const string newWord{
       found_plus ? parameter.substr(split_at + 1, parameter.size()) : ""};
+
+  if (!found_plus || newWord == "") {
+    throw invalid_argument(
+        "--substitute requires two arguments: <oldWord>+<newWord>");
+  }
+
   replace(text.begin(), text.end(), oldWord, newWord);
 }
 
 void executeOperation(vector<string> &text, const string &flag,
                       const string &parameter) {
-
-  // cout << "flag: " << flag << endl;
-  // cout << "parameter: " << parameter << endl;
 
   if (flag == "--print" && parameter == "") {
     print(text);
@@ -168,12 +162,13 @@ void executeOperation(vector<string> &text, const string &flag,
     frequency(text);
   } else if (flag == "--table" && parameter == "") {
     table(text);
-  } else if (flag == "--substitute") {
+  } else if (flag == "--substitute" && parameter != "") {
     substitute(text, parameter);
-  } else if (flag == "--remove") {
+  } else if (flag == "--remove" && parameter != "") {
     remove(text, parameter);
   } else {
-    throw invalid_argument("Please provide a valid FLAG");
+    const string argument{parameter != "" ? flag + "=" + parameter : flag};
+    throw invalid_argument(argument + " is not a valid argument");
   };
 }
 
@@ -197,6 +192,7 @@ int main(int argc, char *argv[]) {
   istream_iterator<string> end;
 
   copy(input, end, back_inserter(text));
+
   auto handle_arguments = [&text](string &arg) {
     string::size_type split_at{arg.find('=')};
     bool found_equal = split_at != string::npos;
