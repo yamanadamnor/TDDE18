@@ -1,10 +1,10 @@
-#include <iostream>
-#include <string>
-
 #include "Battery.hpp"
 #include "Capacitor.hpp"
 #include "Network.hpp"
 #include "Resistor.hpp"
+#include <iostream>
+#include <stdexcept>
+#include <string>
 using namespace std;
 
 void network1(int iterations, int lines_to_print, double time_step,
@@ -70,11 +70,44 @@ int main(int argc, char *argv[]) {
 
   try {
     iterations = stoi(argv[1]);
+    if (iterations < 0) {
+      throw invalid_argument("Invalid argument: " + to_string(iterations) +
+                             " <iterations> must be a positive INTEGER");
+    }
+  } catch (invalid_argument &err) {
+    cerr << err.what() << endl;
+    cerr << "First argument <iterations> must be of type INTEGER" << endl;
+    return -1;
+  }
+
+  try {
     lines_to_print = stoi(argv[2]);
+    if (lines_to_print < 0) {
+      throw invalid_argument("Invalid argument: " + to_string(lines_to_print) +
+                             " <lines_to_print> must be a positive INTEGER");
+    }
+  } catch (invalid_argument &err) {
+    cerr << err.what() << endl;
+    cerr << "Second argument <lines_to_print> must be of type INTEGER" << endl;
+    return -1;
+  }
+
+  try {
     time_step = stod(argv[3]);
+    if (time_step < 0) {
+      throw invalid_argument("Invalid argument: " + to_string(time_step) +
+                             " time_step must be a positive DOUBLE");
+    }
+  } catch (invalid_argument &err) {
+    cerr << err.what() << endl;
+    cerr << "Third argument <time_step> must be of type DOUBLE" << endl;
+    return -1;
+  }
+
+  try {
     battery_voltage = stod(argv[4]);
-  } catch (invalid_argument &e) {
-    cerr << e.what() << endl;
+  } catch (invalid_argument &err) {
+    cerr << "Fourth argument <battery_voltage> must be of type DOUBLE" << endl;
     return -1;
   }
 

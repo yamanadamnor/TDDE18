@@ -1,8 +1,8 @@
 #include "Battery.hpp"
 
-Battery::Battery(const std::string &&name, double voltage, Connection *positive,
+Battery::Battery(const std::string &name, double voltage, Connection *positive,
                  Connection *negative)
-    : Component(std::move(name), positive, negative), voltage(voltage) {}
+    : Component(name, positive, negative), voltage(voltage) {}
 
 void Battery::setCharge() const {
   positive->setCharge(this->voltage);

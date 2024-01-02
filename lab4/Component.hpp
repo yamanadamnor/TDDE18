@@ -5,14 +5,9 @@
 #include "Connection.hpp"
 
 class Component {
-protected:
-  std::string name;
-  Connection *positive;
-  Connection *negative;
-
 public:
   // Component constructor
-  Component(const std::string &&name, Connection *positive,
+  Component(const std::string &name, Connection *positive,
             Connection *negative);
 
   // Virtual destructor
@@ -23,6 +18,11 @@ public:
   double getVoltage() const;
 
   const std::string &getName() const;
+
+protected:
+  std::string name;
+  Connection *positive;
+  Connection *negative;
 };
 
 #endif

@@ -4,9 +4,6 @@
 #include <vector>
 
 class Network {
-private:
-  std::vector<Component *> components;
-
 public:
   // Destructor
   ~Network();
@@ -15,5 +12,8 @@ public:
   void advance(double time_step) const;
   const std::string getComponentsState() const;
   const std::string getHeader() const;
+
+private:
+  std::vector<Component *> components;
 };
 #endif

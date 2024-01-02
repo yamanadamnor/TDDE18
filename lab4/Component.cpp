@@ -2,7 +2,7 @@
 
 #include <string>
 
-Component::Component(const std::string &&name, Connection *positive,
+Component::Component(const std::string &name, Connection *positive,
                      Connection *negative)
     : name(name), positive(positive), negative(negative) {}
 

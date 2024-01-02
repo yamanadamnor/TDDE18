@@ -1,7 +1,7 @@
 #include "Resistor.hpp"
 
-Resistor::Resistor(const std::string &&name, double resistance, Connection *positive, Connection *negative)
-    : Component(std::move(name), positive, negative), resistance(resistance) {}
+Resistor::Resistor(const std::string &name, double resistance, Connection *positive, Connection *negative)
+    : Component(name, positive, negative), resistance(resistance) {}
 
 double Resistor::getCurrent() const {
   return (getVoltage() / resistance);

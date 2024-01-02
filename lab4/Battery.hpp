@@ -4,16 +4,16 @@
 #include <string>
 
 class Battery : public Component {
-private:
-  double voltage;
-
 public:
   // Constructor
-  Battery(const std::string &&name, double voltage, Connection *positive,
+  Battery(const std::string &name, double voltage, Connection *positive,
           Connection *negative);
   double getCurrent() const;
   void simulate(double time_step);
   void setCharge() const;
+
+private:
+  double voltage;
 };
 
 #endif
