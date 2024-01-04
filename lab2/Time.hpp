@@ -1,16 +1,16 @@
 #ifndef TIME_H
 #define TIME_H
-#include <string>
 #include <iostream>
+#include <string>
 
 // TODO: Complementary work needed: The functions should not be member
-// functions, as in do not put them in the struct. That does also mean you should
-// not create a constructor.
+// functions, as in do not put them in the struct. That does also mean you
+// should not create a constructor.
 //
-// TODO: Complementary work needed: operator>> should take a reference to a const Time.
+// TODO: Complementary work needed: operator>> should take a reference to a
+// const Time.
 
-struct Time
-{
+struct Time {
   int hour;
   int minute;
   int second;
@@ -26,7 +26,6 @@ Time &operator--(Time &time);
 // Postfix operators
 Time operator++(const Time &time, int);
 Time operator--(const Time &time, int);
-
 
 // Comparison operators
 bool operator>(const Time &timeLeft, const Time &timeRight);
