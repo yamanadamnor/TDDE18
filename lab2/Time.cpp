@@ -1,4 +1,3 @@
-#include <memory>
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -106,6 +105,7 @@ istream &operator>>(istream &is, Time &time)
     int hour;
     int minute;
     int second;
+    Time newTime;
 
     is >> hour;
     is >> c;
@@ -115,7 +115,10 @@ istream &operator>>(istream &is, Time &time)
 
     try
     {
-        time = Time(hour, minute, second);
+        newTime.hour = hour;
+        newTime.minute = minute;
+        newTime.second = second;
+        time = newTime;
     }
     catch (const std::exception &e)
     {
