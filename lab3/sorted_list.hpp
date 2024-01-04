@@ -18,11 +18,9 @@
 #define SORTEDLIST_H
 #include <string>
 
-class SortedList
-{
+class SortedList {
 private:
-  struct Node
-  {
+  struct Node {
     int value;
     Node *next;
 
@@ -46,15 +44,14 @@ public:
   // Move constructor
   SortedList(SortedList &&list);
 
-  // destructor
+  // Destructor
   ~SortedList();
 
   // Copy assignment operator
-  SortedList &operator=(const SortedList &refList);
+  SortedList &operator=(const SortedList &rhs);
 
   // Move assignment operator
-  SortedList &operator=(SortedList &&refList);
-
+  SortedList &operator=(SortedList &&rhs);
 
   // function that adds a value to the list (in sorted order)
   void insert(int value);
@@ -64,7 +61,8 @@ public:
   // function that removes a value (either by index or by value),
   void remove(int index);
 
-  // function that prints all the values in the list (the formatting must be readable),
+  // function that prints all the values in the list (the formatting must be
+  // readable),
   void print();
 
   std::string to_string();
@@ -75,7 +73,6 @@ public:
   int size();
 
   bool is_empty();
-
 };
 
 #endif

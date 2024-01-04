@@ -1,8 +1,8 @@
 // Good use of SECTION() and some thoguhtful test cases.
 // But a couple of things are missing.
 
-// TODO: Complementary work needed: Test cases insufficient, what if a list is 
-// empty for all functions? 
+// TODO: Complementary work needed: Test cases insufficient, what if a list is
+// empty for all functions?
 
 // Comment: Standard-wise, it is undefined what happens when accessing an object
 // after a std::move.
@@ -23,19 +23,16 @@
 // Finally add any other tests you can think of and finally check your program
 // with valgrind before submitting again.
 
-// TODO: Complementary work needed: unnecessary include 
+// TODO: Complementary work needed: unnecessary include
 
 #include "catch.hpp"
 #include "sorted_list.hpp"
-#include <iostream>
-#include <random>
 
 //=======================================================================
 // Test cases
 //=======================================================================
 
-TEST_CASE("Move constructor")
-{
+TEST_CASE("Move constructor") {
   SortedList l{};
   l.insert(4);
   l.insert(6);
@@ -48,8 +45,7 @@ TEST_CASE("Move constructor")
   CHECK(r.size() == 3);
 }
 
-TEST_CASE("Move assignment operator")
-{
+TEST_CASE("Move assignment operator") {
   SortedList l{};
   l.insert(4);
   l.insert(6);
@@ -63,8 +59,7 @@ TEST_CASE("Move assignment operator")
   CHECK(r.size() == 3);
 }
 
-TEST_CASE()
-{
+TEST_CASE() {
   SortedList l{};
   l.insert(4);
   l.insert(2);
@@ -75,18 +70,15 @@ TEST_CASE()
   REQUIRE(l2.to_string() == "1 2 4");
 }
 
-TEST_CASE("Copy assignment")
-{
+TEST_CASE("Copy assignment") {
   SortedList l{};
-  SECTION("Copy an empty list")
-  {
+  SECTION("Copy an empty list") {
     SortedList l2 = l;
     REQUIRE(l2.to_string() == "");
     REQUIRE(l2.size() == 0);
   }
 
-  SECTION("Copy an already filled list")
-  {
+  SECTION("Copy an already filled list") {
     l.insert(4);
     l.insert(2);
     l.insert(1);
@@ -97,11 +89,9 @@ TEST_CASE("Copy assignment")
   }
 }
 
-TEST_CASE("Insering to list")
-{
+TEST_CASE("Insering to list") {
   SortedList list{};
-  SECTION("Excution order of insert should not matter")
-  {
+  SECTION("Excution order of insert should not matter") {
     list.insert(6);
     list.insert(4);
     list.insert(5);
@@ -110,19 +100,16 @@ TEST_CASE("Insering to list")
     CHECK(list.size() == 4);
   };
 
-  SECTION("Inserting only one element")
-  {
+  SECTION("Inserting only one element") {
     list.insert(1);
     CHECK(list.to_string() == "1");
   };
 }
 
-TEST_CASE("Removing from list by index")
-{
+TEST_CASE("Removing from list by index") {
   SortedList l{};
 
-  SECTION("Remove first element from the list")
-  {
+  SECTION("Remove first element from the list") {
     l.insert(1);
     l.insert(4);
     l.insert(7);
@@ -132,8 +119,7 @@ TEST_CASE("Removing from list by index")
     REQUIRE(l.size() == 2);
   }
 
-  SECTION("Remove last element from the list")
-  {
+  SECTION("Remove last element from the list") {
     l.insert(1);
     l.insert(4);
     l.insert(7);
@@ -143,8 +129,7 @@ TEST_CASE("Removing from list by index")
     REQUIRE(l.size() == 2);
   }
 
-  SECTION("Remove element from the middle")
-  {
+  SECTION("Remove element from the middle") {
     l.insert(1);
     l.insert(4);
     l.insert(7);
@@ -154,8 +139,7 @@ TEST_CASE("Removing from list by index")
     REQUIRE(l.size() == 2);
   }
 
-  SECTION("Remove element with invalid index")
-  {
+  SECTION("Remove element with invalid index") {
     l.insert(1);
     l.insert(4);
     l.insert(7);
@@ -168,30 +152,26 @@ TEST_CASE("Removing from list by index")
   }
 }
 
-TEST_CASE("Creating empty list")
-{
+TEST_CASE("Creating empty list") {
   SortedList list{};
   REQUIRE(list.is_empty() == true);
   REQUIRE(list.size() == 0);
   REQUIRE(list.to_string() == "");
-};
+}
 
-TEST_CASE("Get element by index")
-{
+TEST_CASE("Get element by index") {
   SortedList l{};
   l.insert(1);
   l.insert(4);
   l.insert(9);
 
-  SECTION("Get value by valid index")
-  {
+  SECTION("Get value by valid index") {
     CHECK(l.at(0) == 1);
     CHECK(l.at(1) == 4);
     CHECK(l.at(2) == 9);
   }
 
-  SECTION("Out of range index")
-  {
+  SECTION("Out of range index") {
     CHECK(l.at(5) == -1);
     CHECK(l.at(-1) == -1);
   }
