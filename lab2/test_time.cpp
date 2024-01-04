@@ -14,12 +14,12 @@
 TEST_CASE("Functions") {
   Time time0{};
   Time time1{11, 59, 59};
-  Time time2{12, 0, 0};
-  Time time3{13, 0, 0};
-  Time time4{23, 59, 59};
-  Time time5{19, 59, 59};
-  Time time6{21, 59, 59};
-  Time time7{22, 0, 0};
+  // Time time2{12, 0, 0};
+  // Time time3{13, 0, 0};
+  // Time time4{23, 59, 59};
+  // Time time5{19, 59, 59};
+  // Time time6{21, 59, 59};
+  // Time time7{22, 0, 0};
 
   SECTION("bool is_am") {
     CHECK(is_am(time0));
@@ -36,6 +36,6 @@ TEST_CASE("Operators") {
   SECTION("Prefix operator++") {
     std::cout << to_string(time1) << std::endl;
     std::cout << to_string(++time1) << std::endl;
-    // CHECK(time1++ == time2);
+    CHECK(time1++ == time2);
   }
 }

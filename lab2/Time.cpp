@@ -50,37 +50,35 @@ Time operator--(const Time &time, int) {
   return oldTime;
 }
 
-bool operator>(const Time &timeRight, const Time &timeLeft) {
-  int timeRightInSec = get_time_in_seconds(timeRight);
-  int timeLeftInSec = get_time_in_seconds(timeLeft);
+bool operator>(const Time &lhs, const Time &rhs) {
+  int timeRightInSec = get_time_in_seconds(rhs);
+  int timeLeftInSec = get_time_in_seconds(lhs);
   return timeRightInSec > timeLeftInSec;
 }
 
-bool operator>=(const Time &timeRight, const Time &timeLeft) {
-  return timeRight > timeLeft || timeRight == timeLeft;
+bool operator>=(const Time &lhs, const Time &rhs) {
+  return lhs > rhs || lhs == rhs;
 }
 
-bool operator<(const Time &timeRight, const Time &timeLeft) {
-  int timeRightInSec = get_time_in_seconds(timeRight);
-  int timeLeftInSec = get_time_in_seconds(timeLeft);
+bool operator<(const Time &lhs, const Time &rhs) {
+  int timeRightInSec = get_time_in_seconds(rhs);
+  int timeLeftInSec = get_time_in_seconds(lhs);
   return timeRightInSec < timeLeftInSec;
 }
 
-bool operator<=(const Time &timeRight, const Time &timeLeft) {
-  return timeRight < timeLeft || timeRight == timeLeft;
+bool operator<=(const Time &lhs, const Time &rhs) {
+  return lhs < rhs || lhs == rhs;
 }
 
-bool operator==(const Time &timeRight, const Time &timeLeft) {
-  int rightTimeInSeconds = get_time_in_seconds(timeRight);
-  int leftTimeInSeconds = get_time_in_seconds(timeLeft);
+bool operator==(const Time &lhs, const Time &rhs) {
+  int rightTimeInSeconds = get_time_in_seconds(rhs);
+  int leftTimeInSeconds = get_time_in_seconds(lhs);
   return rightTimeInSeconds == leftTimeInSeconds;
 }
 
-bool operator!=(const Time &timeRight, const Time &timeLeft) {
-  return !(timeRight == timeLeft);
-}
+bool operator!=(const Time &lhs, const Time &rhs) { return !(lhs == rhs); }
 
-ostream &operator<<(ostream &os, Time &time) {
+ostream &operator<<(ostream &os, const Time &time) {
   os << to_string(time);
   return os;
 }

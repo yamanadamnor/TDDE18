@@ -6,9 +6,6 @@
 // TODO: Complementary work needed: The functions should not be member
 // functions, as in do not put them in the struct. That does also mean you
 // should not create a constructor.
-//
-// TODO: Complementary work needed: operator>> should take a reference to a
-// const Time.
 
 struct Time {
   int hour;
@@ -28,15 +25,15 @@ Time operator++(const Time &time, int);
 Time operator--(const Time &time, int);
 
 // Comparison operators
-bool operator>(const Time &timeLeft, const Time &timeRight);
-bool operator<(const Time &timeLeft, const Time &timeRight);
-bool operator<=(const Time &timeLeft, const Time &timeRight);
-bool operator>=(const Time &timeLeft, const Time &timeRight);
-bool operator!=(const Time &timeLeft, const Time &timeRight);
-bool operator==(const Time &timeRight, const Time &timeLeft);
+bool operator>(const Time &lhs, const Time &rhs);
+bool operator<(const Time &lhs, const Time &rhs);
+bool operator<=(const Time &lhs, const Time &rhs);
+bool operator>=(const Time &lhs, const Time &rhs);
+bool operator!=(const Time &lhs, const Time &rhs);
+bool operator==(const Time &lhs, const Time &rhs);
 
 std::istream &operator>>(std::istream &is, Time &time);
-std::ostream &operator<<(std::ostream &is, Time &time);
+std::ostream &operator<<(std::ostream &os, const Time &time);
 
 int get_time_in_seconds(const Time &time);
 Time &increment(Time &time, int seconds);
