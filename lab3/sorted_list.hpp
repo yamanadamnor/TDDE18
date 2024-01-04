@@ -65,16 +65,16 @@ public:
 
   // function that prints all the values in the list (the formatting must be
   // readable),
-  void print();
+  void print() const;
 
-  std::string to_string();
+  std::string to_string() const;
 
   // function that return the value stored at a specified index
-  int at(int index);
+  int at(int index) const;
 
-  int size();
+  int size() const;
 
-  bool is_empty();
+  bool is_empty() const;
 };
 
 #endif

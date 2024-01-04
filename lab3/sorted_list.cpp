@@ -151,11 +151,11 @@ void SortedList::remove(int index) {
   delete temp;
 }
 
-bool SortedList::is_empty() { return head == nullptr; }
+bool SortedList::is_empty() const { return head == nullptr; }
 
-void SortedList::print() { cout << this->to_string() << endl; }
+void SortedList::print() const { cout << to_string() << endl; }
 
-string SortedList::to_string() {
+string SortedList::to_string() const {
   Node *curr{head};
   std::stringstream ss{};
   while (curr != nullptr) {
@@ -169,7 +169,7 @@ string SortedList::to_string() {
   return ss.str();
 }
 
-int SortedList::at(int index) {
+int SortedList::at(int index) const {
   Node *curr{head};
   for (int i = 0; i < this->size(); i++) {
     if (i == index) {
@@ -182,7 +182,7 @@ int SortedList::at(int index) {
   return -1;
 }
 
-int SortedList::size() {
+int SortedList::size() const {
   int counter{0};
   Node *curr{head};
   while (curr != nullptr) {
