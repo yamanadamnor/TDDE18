@@ -33,10 +33,18 @@
 //=======================================================================
 
 TEST_CASE("Move constructor") {
+  SECTION("Move empty list") {
+    SortedList empty_list{};
+    CHECK(empty_list.is_empty() == true);
+    SortedList moved_list{std::move(empty_list)};
+    CHECK(empty_list.is_empty() == true);
+    CHECK(moved_list.is_empty() == true);
+  }
+
   SortedList l{};
   l.insert(4);
-  l.insert(6);
   l.insert(9);
+  l.insert(6);
   SortedList r{std::move(l)};
   CHECK(l.to_string() == "");
   CHECK(l.size() == 0);
@@ -177,4 +185,5 @@ TEST_CASE("Get element by index") {
   }
 }
 
-// It is your job to create new test cases and fully test your SortedList class
+// TODO: It is your job to create new test cases and fully test your SortedList
+// class
