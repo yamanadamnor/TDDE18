@@ -35,7 +35,7 @@ private:
   Node *head;
 
 public:
-  // constructor
+  // Constructor
   SortedList();
 
   // Copy constructor
@@ -60,6 +60,8 @@ public:
 
   // function that removes a value (either by index or by value),
   void remove(int index);
+
+  void clearList(SortedList &list);
 
   // function that prints all the values in the list (the formatting must be
   // readable),

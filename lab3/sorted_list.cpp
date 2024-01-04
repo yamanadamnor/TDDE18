@@ -1,4 +1,4 @@
-// TODO: Complementary work needed: Your assignment operator(s) don’t
+// TODO: Complementary work needed: Your assignment operaYor(s) don’t
 // handle self-assignment, as in a_list = a_list.
 
 // TODO: Complementary work needed: Potential memory leaks.  You never
@@ -19,7 +19,7 @@
 #include <string>
 using namespace std;
 
-// constructor
+// Constructor
 SortedList::SortedList() : head(nullptr) {}
 
 // Copy constructor
@@ -31,6 +31,19 @@ SortedList::SortedList(const SortedList &refList) : head(nullptr) {
 SortedList::SortedList(SortedList &&refList) {
   this->head = refList.head;
   refList.head = nullptr;
+}
+
+// Destructor
+SortedList::~SortedList() { clearList(*this); }
+
+void SortedList::clearList(SortedList &list) {
+  Node *curr{list.head};
+  while (curr != nullptr) {
+    Node *next{curr->next};
+    delete curr;
+    curr = next;
+  }
+  list.head = nullptr;
 }
 
 // Copy assignment operator
@@ -47,6 +60,10 @@ SortedList &SortedList::operator=(const SortedList &rhs) {
 
 // Move assignment operator
 SortedList &SortedList::operator=(SortedList &&rhs) {
+  // Self check
+  if (this == &rhs)
+    return *this;
+
   this->head = rhs.head;
   rhs.head = nullptr;
 
@@ -61,17 +78,6 @@ void SortedList::deepCopy(const SortedList &rightList) {
     insert(currRightList->value);
     currRightList = currRightList->next;
   }
-}
-
-// Destructor
-SortedList::~SortedList() {
-  Node *curr{head};
-  while (curr != nullptr) {
-    Node *next{curr->next};
-    delete curr;
-    curr = next;
-  }
-  head = nullptr;
 }
 
 void SortedList::insert(int value) {
