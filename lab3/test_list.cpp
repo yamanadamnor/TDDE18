@@ -24,7 +24,7 @@
 // with valgrind before submitting again.
 
 #include "catch.hpp"
-#include "sorted_list.hpp"
+#include "SortedList.hpp"
 
 //=======================================================================
 // Test cases

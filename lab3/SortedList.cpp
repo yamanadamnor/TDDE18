@@ -13,7 +13,7 @@
 // Hint: If you have a need for a “clear” list, create a helper function that
 // does just that.
 
-#include "sorted_list.hpp"
+#include "SortedList.hpp"
 #include <iostream>
 #include <sstream>
 #include <string>
