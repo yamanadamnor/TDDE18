@@ -23,8 +23,6 @@
 // Finally add any other tests you can think of and finally check your program
 // with valgrind before submitting again.
 
-// TODO: Complementary work needed: unnecessary include
-
 #include "catch.hpp"
 #include "sorted_list.hpp"
 
@@ -33,24 +31,23 @@
 //=======================================================================
 
 TEST_CASE("Move constructor") {
+  SortedList l{};
   SECTION("Move empty list") {
-    SortedList empty_list{};
-    CHECK(empty_list.is_empty() == true);
-    SortedList moved_list{std::move(empty_list)};
-    CHECK(empty_list.is_empty() == true);
+    CHECK(l.is_empty() == true);
+    SortedList moved_list{std::move(l)};
+    CHECK(l.is_empty() == true);
     CHECK(moved_list.is_empty() == true);
   }
 
-  SortedList l{};
-  l.insert(4);
-  l.insert(9);
-  l.insert(6);
-  SortedList r{std::move(l)};
-  CHECK(l.to_string() == "");
-  CHECK(l.size() == 0);
-
-  CHECK(r.to_string() == "4 6 9");
-  CHECK(r.size() == 3);
+  SECTION("Move non empty list") {
+    l.insert(4);
+    l.insert(9);
+    l.insert(6);
+    SortedList r{std::move(l)};
+    r.insert(9);
+    CHECK(r.to_string() == "4 6 9 9");
+    CHECK(r.size() == 4);
+  }
 }
 
 TEST_CASE("Move assignment operator") {
@@ -58,24 +55,50 @@ TEST_CASE("Move assignment operator") {
   l.insert(4);
   l.insert(6);
   l.insert(9);
-  SortedList r = std::move(l);
+  SECTION("Move assignment operator not self") {
+    SortedList r = std::move(l);
 
-  CHECK(l.to_string() == "");
-  CHECK(l.size() == 0);
+    CHECK(l.to_string() == "");
+    CHECK(l.size() == 0);
 
-  CHECK(r.to_string() == "4 6 9");
-  CHECK(r.size() == 3);
+    CHECK(r.to_string() == "4 6 9");
+    CHECK(r.size() == 3);
+  }
+
+  SECTION("Move assignment operator self") {
+    l = std::move(l);
+    l.insert(9);
+
+    CHECK(l.to_string() == "4 6 9 9");
+    CHECK(l.size() == 4);
+  }
 }
 
-TEST_CASE() {
+TEST_CASE("Copy constructor") {
   SortedList l{};
-  l.insert(4);
-  l.insert(2);
-  l.insert(1);
-  SortedList l2{l};
-  l.insert(9);
+  SECTION("Non empty list") {
+    l.insert(4);
+    l.insert(2);
+    l.insert(1);
+    SortedList l2{l};
+    l.insert(9);
 
-  REQUIRE(l2.to_string() == "1 2 4");
+    CHECK(l.to_string() == "1 2 4 9");
+    CHECK(l.size() == 4);
+
+    CHECK(l2.to_string() == "1 2 4");
+    CHECK(l2.size() == 3);
+  }
+
+  SECTION("Empty list") {
+    SortedList l2{l};
+
+    CHECK(l.to_string() == "");
+    CHECK(l.size() == 0);
+
+    CHECK(l2.to_string() == "");
+    CHECK(l2.size() == 0);
+  }
 }
 
 TEST_CASE("Copy assignment") {
@@ -92,6 +115,9 @@ TEST_CASE("Copy assignment") {
     l.insert(1);
     SortedList l2 = l;
     l.insert(9);
+    REQUIRE(l.to_string() == "1 2 4 9");
+    REQUIRE(l.size() == 4);
+
     REQUIRE(l2.to_string() == "1 2 4");
     REQUIRE(l2.size() == 3);
   }
@@ -116,42 +142,30 @@ TEST_CASE("Insering to list") {
 
 TEST_CASE("Removing from list by index") {
   SortedList l{};
+  l.insert(1);
+  l.insert(4);
+  l.insert(7);
 
   SECTION("Remove first element from the list") {
-    l.insert(1);
-    l.insert(4);
-    l.insert(7);
-
     l.remove(0);
     REQUIRE(l.to_string() == "4 7");
     REQUIRE(l.size() == 2);
   }
 
   SECTION("Remove last element from the list") {
-    l.insert(1);
-    l.insert(4);
-    l.insert(7);
-
-    l.remove(2);
+    int last_index{l.size() - 1};
+    l.remove(last_index);
     REQUIRE(l.to_string() == "1 4");
     REQUIRE(l.size() == 2);
   }
 
   SECTION("Remove element from the middle") {
-    l.insert(1);
-    l.insert(4);
-    l.insert(7);
-
     l.remove(1);
     REQUIRE(l.to_string() == "1 7");
     REQUIRE(l.size() == 2);
   }
 
   SECTION("Remove element with invalid index") {
-    l.insert(1);
-    l.insert(4);
-    l.insert(7);
-
     l.remove(3);
     l.remove(5);
     l.remove(-100);
