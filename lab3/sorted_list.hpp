@@ -1,18 +1,7 @@
-// TODO: Complementary work needed: Be consistent in naming your files.
-
-// TODO: Complementary work needed: The Node type should be invisible and
-// inaccessible to programmers that use the list.
-// From assignment:
-// “The link class and any functions pertaining to it should thus be stashed
-// away and be inaccessible to the programmer.”
-
 // TODO: Complementary work needed: Function implementations should not be
 // done in the header file.
 //
 // (This includes when it is only a member initalizer list and an empty body)
-
-// TODO: Complementary work needed: Member functions that don't modify the
-// list should be declared const.
 
 #ifndef SORTEDLIST_H
 #define SORTEDLIST_H
@@ -24,8 +13,11 @@ private:
     int value;
     Node *next;
 
-    Node(int val = 0) : value(val), next(nullptr){};
-    Node(int val, Node *temp) : value(val), next(temp){};
+    // Constructor
+    // This cant be implemented anywhere else because it is a private inner
+    // class
+    Node(int value = 0) : value(value), next(nullptr){};
+    Node(int value, Node *next) : value(value), next(next){};
   };
 
   // Function that deep copies rightList into this
