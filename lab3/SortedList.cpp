@@ -1,17 +1,18 @@
-// TODO: Complementary work needed: Your assignment operaYor(s) don’t
-// handle self-assignment, as in a_list = a_list.
-
-// TODO: Complementary work needed: Don’t explicitly call the destructor, it
-// is used only when you want to destroy the object.
-//
-// Hint: If you have a need for a “clear” list, create a helper function that
-// does just that.
-
 #include "SortedList.hpp"
 #include <iostream>
 #include <sstream>
 #include <string>
 using namespace std;
+
+void SortedList::clearList(SortedList &list) {
+  Node *curr{list.head};
+  while (curr != nullptr) {
+    Node *next{curr->next};
+    delete curr;
+    curr = next;
+  }
+  list.head = nullptr;
+}
 
 // Constructor
 SortedList::SortedList() : head(nullptr) {}
@@ -30,23 +31,13 @@ SortedList::SortedList(SortedList &&refList) {
 // Destructor
 SortedList::~SortedList() { clearList(*this); }
 
-void SortedList::clearList(SortedList &list) {
-  Node *curr{list.head};
-  while (curr != nullptr) {
-    Node *next{curr->next};
-    delete curr;
-    curr = next;
-  }
-  list.head = nullptr;
-}
-
 // Copy assignment operator
 SortedList &SortedList::operator=(const SortedList &rhs) {
   // Self check
   if (this == &rhs)
     return *this;
 
-  delete this;
+  clearList(*this);
   this->deepCopy(rhs);
 
   return *this;

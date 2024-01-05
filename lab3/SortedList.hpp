@@ -13,9 +13,9 @@ private:
     int value;
     Node *next;
 
-    // Constructor
     // This cant be implemented anywhere else because it is a private inner
     // class
+    // Constructor
     Node(int value = 0) : value(value), next(nullptr){};
     Node(int value, Node *next) : value(value), next(next){};
   };

@@ -4,13 +4,6 @@
 // TODO: Complementary work needed: Test cases insufficient, what if a list is
 // empty for all functions?
 
-// Comment: Standard-wise, it is undefined what happens when accessing an object
-// after a std::move.
-//
-// After
-// SortedList r{std::move(l)};
-// we can only make assertions about "r".
-
 // TODO: Complementary work needed: Test cases insufficient, you should test
 // all functions that you have implemented.
 
@@ -33,10 +26,9 @@
 TEST_CASE("Move constructor") {
   SortedList l{};
   SECTION("Move empty list") {
-    CHECK(l.is_empty() == true);
+    REQUIRE(l.is_empty() == true);
     SortedList moved_list{std::move(l)};
-    CHECK(l.is_empty() == true);
-    CHECK(moved_list.is_empty() == true);
+    REQUIRE(moved_list.is_empty() == true);
   }
 
   SECTION("Move non empty list") {
@@ -45,8 +37,8 @@ TEST_CASE("Move constructor") {
     l.insert(6);
     SortedList r{std::move(l)};
     r.insert(9);
-    CHECK(r.to_string() == "4 6 9 9");
-    CHECK(r.size() == 4);
+    REQUIRE(r.to_string() == "4 6 9 9");
+    REQUIRE(r.size() == 4);
   }
 }
 
@@ -78,6 +70,7 @@ TEST_CASE("Move assignment operator") {
     CHECK(r.to_string() == "4 6 9");
     CHECK(r.size() == 3);
   }
+
   SECTION("Move assignment operator self") {
     l = std::move(l);
     l.insert(9);
@@ -212,5 +205,3 @@ TEST_CASE("Get element by index") {
   }
 }
 
-// TODO: It is your job to create new test cases and fully test your SortedList
-// class
