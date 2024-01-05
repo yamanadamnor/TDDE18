@@ -50,7 +50,7 @@ public:
 
   void insert_place(Node *currentNode, Node *insertNode);
 
-  // function that removes a value (either by index or by value),
+  // function that removes a value by index
   void remove(int index);
 
   void clearList(SortedList &list);

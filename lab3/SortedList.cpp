@@ -58,7 +58,6 @@ SortedList &SortedList::operator=(SortedList &&rhs) {
 }
 
 void SortedList::deepCopy(const SortedList &rightList) {
-
   Node *currRightList{rightList.head};
 
   while (currRightList != nullptr) {

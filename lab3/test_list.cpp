@@ -71,12 +71,36 @@ TEST_CASE("Move assignment operator") {
     CHECK(r.size() == 3);
   }
 
-  SECTION("Move assignment operator self") {
+  SECTION("Move assignment operator self with existing elements") {
     l = std::move(l);
     l.insert(9);
 
     CHECK(l.to_string() == "4 6 9 9");
     CHECK(l.size() == 4);
+  }
+  
+  SECTION("Move assignment operator self with no elements") {
+    SortedList empty{};
+    empty = std::move(empty);
+    CHECK(empty.to_string() == "");
+    CHECK(empty.is_empty() == true);
+    CHECK(empty.size() == 0);
+  }
+
+  SECTION("Move assignment operator with empty list") {
+    SortedList empty_list{};
+    SortedList moved_empty = std::move(empty_list);
+
+    CHECK(moved_empty.to_string() == "");
+    CHECK(moved_empty.is_empty() == true);
+
+    moved_empty.insert(4);
+    moved_empty.insert(4);
+    moved_empty.insert(4);
+
+    CHECK(moved_empty.to_string() == "4 4 4");
+    CHECK(moved_empty.is_empty() == false);
+    CHECK(moved_empty.size() == 3);
   }
 }
 
@@ -109,6 +133,21 @@ TEST_CASE("Copy constructor") {
 
 TEST_CASE("Copy assignment") {
   SortedList l{};
+  SECTION("Copy to list with existing elements") {
+    SortedList existing_elements{};
+    existing_elements.insert(4);
+    existing_elements.insert(8);
+    existing_elements.insert(0);
+
+    REQUIRE(existing_elements.to_string() == "0 4 8");
+    REQUIRE(existing_elements.size() == 3);
+
+    existing_elements = l;
+
+    REQUIRE(l.to_string() == "");
+    REQUIRE(l.size() == 0);
+  }
+
   SECTION("Copy an empty list") {
     SortedList l2 = l;
     REQUIRE(l2.to_string() == "");
@@ -126,6 +165,16 @@ TEST_CASE("Copy assignment") {
 
     REQUIRE(l2.to_string() == "1 2 4");
     REQUIRE(l2.size() == 3);
+  }
+
+  SECTION("Copy to self") {
+    l.insert(4);
+    l.insert(2);
+    l.insert(1);
+    l = l;
+    REQUIRE(l.to_string() == "1 2 4");
+    REQUIRE(l.is_empty() == false);
+    REQUIRE(l.size() == 3);
   }
 }
 
