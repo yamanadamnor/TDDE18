@@ -23,8 +23,8 @@
 // Finally add any other tests you can think of and finally check your program
 // with valgrind before submitting again.
 
-#include "catch.hpp"
 #include "SortedList.hpp"
+#include "catch.hpp"
 
 //=======================================================================
 // Test cases
@@ -65,6 +65,19 @@ TEST_CASE("Move assignment operator") {
     CHECK(r.size() == 3);
   }
 
+  SECTION("Move assignment operator not self and with preexisting element") {
+    SortedList r{};
+    r.insert(4);
+    r.insert(6);
+    r.insert(9);
+    r = std::move(l);
+
+    CHECK(l.to_string() == "");
+    CHECK(l.size() == 0);
+
+    CHECK(r.to_string() == "4 6 9");
+    CHECK(r.size() == 3);
+  }
   SECTION("Move assignment operator self") {
     l = std::move(l);
     l.insert(9);

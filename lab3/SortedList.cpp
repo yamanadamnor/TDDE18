@@ -1,12 +1,6 @@
 // TODO: Complementary work needed: Your assignment operaYor(s) don’t
 // handle self-assignment, as in a_list = a_list.
 
-// TODO: Complementary work needed: Potential memory leaks.  You never
-// handle the case where *this contain elements from before the
-// assignment.
-// Hint: When will other be destructed? Can we use that to destroy the
-// previous elements of *this?
-
 // TODO: Complementary work needed: Don’t explicitly call the destructor, it
 // is used only when you want to destroy the object.
 //
@@ -63,6 +57,8 @@ SortedList &SortedList::operator=(SortedList &&rhs) {
   // Self check
   if (this == &rhs)
     return *this;
+
+  clearList(*this);
 
   this->head = rhs.head;
   rhs.head = nullptr;
