@@ -1,31 +1,8 @@
-// TODO: Complementary work needed: Function implementations should not be
-// done in the header file.
-//
-// (This includes when it is only a member initalizer list and an empty body)
-
 #ifndef SORTEDLIST_H
 #define SORTEDLIST_H
 #include <string>
 
 class SortedList {
-private:
-  struct Node {
-    int value;
-    Node *next;
-
-    // This cant be implemented anywhere else because it is a private inner
-    // class
-    // Constructor
-    Node(int value = 0) : value(value), next(nullptr){};
-    Node(int value, Node *next) : value(value), next(next){};
-  };
-
-  // Function that deep copies rightList into this
-  void deepCopy(const SortedList &rightList);
-
-  // Head pointer
-  Node *head;
-
 public:
   // Constructor
   SortedList();
@@ -48,8 +25,6 @@ public:
   // function that adds a value to the list (in sorted order)
   void insert(int value);
 
-  void insert_place(Node *currentNode, Node *insertNode);
-
   // function that removes a value by index
   void remove(int index);
 
@@ -67,6 +42,25 @@ public:
   int size() const;
 
   bool is_empty() const;
-};
 
+private:
+  struct Node {
+    int value;
+    Node *next;
+
+    // This cant be implemented anywhere else because it is a private inner
+    // class
+    // Constructor
+    Node(int value = 0) : value(value), next(nullptr){};
+    Node(int value, Node *next) : value(value), next(next){};
+  };
+
+  // Function that deep copies rightList into this
+  void deepCopy(const SortedList &rightList);
+
+  void insert_place(Node *currentNode, Node *insertNode);
+
+  // Head pointer
+  Node *head;
+};
 #endif

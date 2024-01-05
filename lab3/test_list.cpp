@@ -1,20 +1,3 @@
-// Good use of SECTION() and some thoguhtful test cases.
-// But a couple of things are missing.
-
-// TODO: Complementary work needed: Test cases insufficient, what if a list is
-// empty for all functions?
-
-// TODO: Complementary work needed: Test cases insufficient, you should test
-// all functions that you have implemented.
-
-// TODO: Complementary work needed: Program crashes with SIGABRT and valgrind
-// produces warnings when running certain tests.
-//
-// My suggestion is to add test cases, both the ones mentioned in this file
-// but also ones that test other TODOs, one at a time until you find which
-// one(s) cause your program to fail. After that, start fixing.
-// Finally add any other tests you can think of and finally check your program
-// with valgrind before submitting again.
 
 #include "SortedList.hpp"
 #include "catch.hpp"
@@ -253,4 +236,25 @@ TEST_CASE("Get element by index") {
     CHECK(l.at(-1) == -1);
   }
 }
+TEST_CASE("Helper functions") {
+  SECTION("Clearlist") {
+    SortedList list{};
+    list.insert(5);
+    list.insert(6);
+    list.insert(7);
+    list.insert(8);
+    list.insert(11);
+    list.insert(19);
+
+    CHECK(list.to_string() == "5 6 7 8 11 19");
+    CHECK(list.size() == 6);
+
+    list.clearList(list);
+    CHECK(list.to_string() == "");
+    CHECK(list.size() == 0);
+    CHECK(list.is_empty() == true);
+
+  }
+}
+
 
