@@ -27,10 +27,18 @@ Compile the lab:
 ```bash
 w++17 Battery.cpp Capacitor.cpp Component.cpp Connection.cpp Network.cpp Resistor.cpp main.cpp
 ```
-
-
+## Lab5 
+Compile the lab:
+```bash
+w++17 main.cpp
+```
 Run the program
 ```bash
-./a.out <INT iterations> <INT lines_to_print><DOUBLE time_step><DOUBLE battery_voltage>
+./a.out <input file> FLAGS
+FLAGS:
+--print                            Prints every word in <input file> separated by spaces
+--frequency                        Prints frequency table of <input file> in descending order of occurance
+--table                            Prints frequency table of <input file> in lexicographical order
+--substitute=<oldWord>+<newWord>   Substitutes every occurance of <oldWord> by <newWord> in content provided by <input file>
+--remove=<word>                    Removes every occurance of <word> in content provided by <input file>
 ```
-
