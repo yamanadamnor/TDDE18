@@ -3,10 +3,6 @@
 #include <iostream>
 #include <string>
 
-// TODO: Complementary work needed: The functions should not be member
-// functions, as in do not put them in the struct. That does also mean you
-// should not create a constructor.
-
 struct Time {
   int hour;
   int minute;
