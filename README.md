@@ -7,7 +7,7 @@ alias w++17="g++ -std=c++17 -Wall -Wextra -Wpedantic -Weffc++ -Wold-style-cast"
 both g++ and clang++ works with this alias.
 
 ## Lab 2
-Compile the testing framework which should yield a precompiled object file `test_main.o`
+Compile the testing framework which should yields a precompiled object file `test_main.o`
 ```bash
 w++17 -c test_main.cpp
 ```
@@ -17,7 +17,7 @@ Compile the test with the precompiled object file
 w++17 test_main.o Time.cpp time_test.cpp
 ```
 ## Lab 3
-Compile the testing framework which should yield a precompiled object file `test_main.o`
+Compile the testing framework which should yields a precompiled object file `test_main.o`
 ```bash
 w++17 -c test_main.cpp
 ```
