@@ -10,7 +10,10 @@ using namespace std;
 void network1(int iterations, int lines_to_print, double time_step,
               double battery_voltage) {
   Network network;
-  Connection P, N, R124, R23;
+  Connection P;
+  Connection N;
+  Connection R124;
+  Connection R23;
   network.addComponent(new Battery("Bat", battery_voltage, &P, &N));
   network.addComponent(new Resistor("R1", 6.0, &P, &R124));
   network.addComponent(new Resistor("R2", 4.0, &R124, &R23));
@@ -23,7 +26,10 @@ void network1(int iterations, int lines_to_print, double time_step,
 void network2(int iterations, int lines_to_print, double time_step,
               double battery_voltage) {
   Network network;
-  Connection P, N, L, R;
+  Connection P;
+  Connection N;
+  Connection L;
+  Connection R;
   network.addComponent(new Battery("Bat", battery_voltage, &P, &N));
   network.addComponent(new Resistor("R1", 150.0, &P, &L));
   network.addComponent(new Resistor("R2", 50.0, &P, &R));
@@ -37,7 +43,10 @@ void network2(int iterations, int lines_to_print, double time_step,
 void network3(int iterations, int lines_to_print, double time_step,
               double battery_voltage) {
   Network network;
-  Connection P, N, L, R;
+  Connection P;
+  Connection N;
+  Connection L;
+  Connection R;
   network.addComponent(new Battery("Bat", battery_voltage, &P, &N));
   network.addComponent(new Resistor("R1", 150.0, &P, &L));
   network.addComponent(new Resistor("R2", 50.0, &P, &R));
