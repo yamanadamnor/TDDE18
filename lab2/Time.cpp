@@ -82,7 +82,6 @@ istream &operator>>(istream &is, Time &time) {
   int hour;
   int minute;
   int second;
-  Time newTime;
 
   is >> hour;
   is >> c;
@@ -90,12 +89,11 @@ istream &operator>>(istream &is, Time &time) {
   is >> c;
   is >> second;
 
-  try {
-    newTime.hour = hour;
-    newTime.minute = minute;
-    newTime.second = second;
-    time = newTime;
-  } catch (const std::exception &e) {
+  time.hour = hour;
+  time.minute = minute;
+  time.second = second;
+
+  if (!is_valid(time)) {
     is.setstate(std::ios_base::failbit);
   }
   return is;
