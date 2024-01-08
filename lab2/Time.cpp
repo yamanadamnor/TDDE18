@@ -7,10 +7,17 @@ using namespace std;
 
 Time &increment(Time &time, int inc) {
   int oldTimeInSec{get_time_in_seconds(time)};
-  oldTimeInSec = oldTimeInSec + inc <= 0 ? 86400 + inc : oldTimeInSec + inc;
+
+  if (oldTimeInSec + inc <= 0) {
+    oldTimeInSec = oldTimeInSec + 86400 + (inc % 86400);
+  } else {
+    oldTimeInSec = oldTimeInSec + inc;
+  }
+
   time.hour = (oldTimeInSec / 3600) % 24;
   time.minute = (oldTimeInSec % 3600) / 60;
   time.second = (oldTimeInSec % 3600) % 60;
+
   return time;
 }
 
