@@ -6,9 +6,9 @@
 using namespace std;
 
 Time &increment(Time &time, int inc) {
-  int oldTimeInSec = get_time_in_seconds(time);
-  oldTimeInSec += inc;
-  time.hour = oldTimeInSec / 3600;
+  int oldTimeInSec{get_time_in_seconds(time)};
+  oldTimeInSec = oldTimeInSec + inc <= 0 ? 86400 + inc : oldTimeInSec + inc;
+  time.hour = (oldTimeInSec / 3600) % 24;
   time.minute = (oldTimeInSec % 3600) / 60;
   time.second = (oldTimeInSec % 3600) % 60;
   return time;
@@ -25,26 +25,20 @@ Time operator-(const Time &time, int seconds) {
 }
 
 // Prefix operator++
-Time &operator++(const Time &time) {
-  Time timeCopy{time};
-  return increment(timeCopy, 1);
-}
+Time &operator++(Time &time) { return increment(time, 1); }
 
 // Postfix operator++
-Time operator++(const Time &time, int) {
+Time operator++(Time &time, int) {
   Time oldTime = time;
   ++time;
   return oldTime;
 }
 
 // Prefix operator--
-Time &operator--(const Time &time) {
-  Time timeCopy = time;
-  return increment(timeCopy, -1);
-}
+Time &operator--(Time &time) { return increment(time, -1); }
 
 // Postfix operator--
-Time operator--(const Time &time, int) {
+Time operator--(Time &time, int) {
   Time oldTime = time;
   --time;
   return oldTime;
@@ -53,7 +47,7 @@ Time operator--(const Time &time, int) {
 bool operator>(const Time &lhs, const Time &rhs) {
   int timeRightInSec = get_time_in_seconds(rhs);
   int timeLeftInSec = get_time_in_seconds(lhs);
-  return timeRightInSec > timeLeftInSec;
+  return timeLeftInSec > timeRightInSec;
 }
 
 bool operator>=(const Time &lhs, const Time &rhs) {
@@ -63,7 +57,7 @@ bool operator>=(const Time &lhs, const Time &rhs) {
 bool operator<(const Time &lhs, const Time &rhs) {
   int timeRightInSec = get_time_in_seconds(rhs);
   int timeLeftInSec = get_time_in_seconds(lhs);
-  return timeRightInSec < timeLeftInSec;
+  return timeLeftInSec < timeRightInSec;
 }
 
 bool operator<=(const Time &lhs, const Time &rhs) {
@@ -71,9 +65,9 @@ bool operator<=(const Time &lhs, const Time &rhs) {
 }
 
 bool operator==(const Time &lhs, const Time &rhs) {
-  int rightTimeInSeconds = get_time_in_seconds(rhs);
-  int leftTimeInSeconds = get_time_in_seconds(lhs);
-  return rightTimeInSeconds == leftTimeInSeconds;
+  int timeRightInSec = get_time_in_seconds(rhs);
+  int timeLeftInSec = get_time_in_seconds(lhs);
+  return timeLeftInSec == timeRightInSec;
 }
 
 bool operator!=(const Time &lhs, const Time &rhs) { return !(lhs == rhs); }

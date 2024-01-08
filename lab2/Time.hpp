@@ -13,7 +13,7 @@ struct Time {
   int second;
 };
 
-Time operator+(Time &time, int incrementor);
+Time operator+(const Time &time, int incrementor);
 Time operator-(const Time &time, int decrementor);
 
 // Prefix operators
@@ -21,8 +21,8 @@ Time &operator++(Time &time);
 Time &operator--(Time &time);
 
 // Postfix operators
-Time operator++(const Time &time, int);
-Time operator--(const Time &time, int);
+Time operator++(Time &time, int);
+Time operator--(Time &time, int);
 
 // Comparison operators
 bool operator>(const Time &lhs, const Time &rhs);
