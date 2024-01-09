@@ -1,0 +1,5 @@
+IDA:Department of Computer and Information Science
+LiU:Linköping University
+ORGANIZATION:IDA / LiU
+COURSE: TDDE18
+FULL_COURSE:COURSE at ORGANIZATION
