@@ -9,6 +9,15 @@ set ts=4 sw=4 sts=4 et
 set clipboard=unnamedplus
 ```
 
+# General notes
+Header gaurds
+```cpp
+#ifndef FILENAME_H
+#define FILENAME_H
+#endif
+```
+
+
 # Operator overloading
 ```cpp
 // Has to be a non-member function
