@@ -42,3 +42,5 @@ FLAGS:
 --substitute=<oldWord>+<newWord>   Substitutes every occurance of <oldWord> by <newWord> in content provided by <input file>
 --remove=<word>                    Removes every occurance of <word> in content provided by <input file>
 ```
+
+## [Exam notes](exams/notes.md)
