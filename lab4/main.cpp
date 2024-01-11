@@ -87,6 +87,8 @@ int main(int argc, char *argv[]) {
     cerr << err.what() << endl;
     cerr << "First argument <iterations> must be of type INTEGER" << endl;
     return -1;
+  } catch (out_of_range &err) {
+    cerr << "<iterations> could not be set, out of range" << endl;
   }
 
   try {
@@ -99,6 +101,8 @@ int main(int argc, char *argv[]) {
     cerr << err.what() << endl;
     cerr << "Second argument <lines_to_print> must be of type INTEGER" << endl;
     return -1;
+  } catch (out_of_range &err) {
+    cerr << "<lines_to_print> could not be set, out of range" << endl;
   }
 
   try {
@@ -111,6 +115,8 @@ int main(int argc, char *argv[]) {
     cerr << err.what() << endl;
     cerr << "Third argument <time_step> must be of type DOUBLE" << endl;
     return -1;
+  } catch (out_of_range &err) {
+    cerr << "<time_step> could not be set, out of range" << endl;
   }
 
   try {
@@ -118,6 +124,8 @@ int main(int argc, char *argv[]) {
   } catch (invalid_argument &err) {
     cerr << "Fourth argument <battery_voltage> must be of type DOUBLE" << endl;
     return -1;
+  } catch (out_of_range &err) {
+    cerr << "<battery_voltage> could not be set, out of range" << endl;
   }
 
   network1(iterations, lines_to_print, time_step, battery_voltage);
