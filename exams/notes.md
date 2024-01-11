@@ -7,6 +7,7 @@ Sets tab to 4 spaces in vim
 ```vim
 set ts=4 sw=4 sts=4 et
 set clipboard=unnamedplus
+set number relativenumber 
 ```
 
 # General notes
@@ -16,20 +17,80 @@ Header gaurds
 #define FILENAME_H
 #endif
 ```
+Opening a file using fstream
+```cpp
+ifstream ifs{};
+string line;
+ifs.open("filename");
+
+getline(inputstream, output_string, delimiter);
+
+getline(ifs, line, " ");
+
+// In loop
+while(getline(ifs, line)) { ... }
+
+```
 
 
 # Operator overloading
 ```cpp
 // Has to be a non-member function
-ostream& operator<<(ostream &os, const T &object)
+ostream& operator<<(ostream& os, const T& object)
+istream& operator>>(istream& is, T& object);
+
+T operator+(const T& object, int incrementor);
+T operator-(const T& object, int decrementor);
+
+// If member funtion remove the reference to object T
+// Prefix operators
+T& operator++(T& object);
+T& operator--(T& object);
+
+// Postfix operators
+T operator++(T& object, int);
+T operator--(T& object, int);
+
+// Comparison operators
+bool operator>(const T& lhs, const T& rhs);
+
+// Copy assignment operator
+T& T::operator=(const T &rhs) {
+  // Self check
+  if (this == &rhs)
+    return *this;
+
+  clearList(*this);
+  // Copies the content of rhs to this
+  this->deepCopy(rhs);
+
+  return *this;
+}
+
+// Move assignment operator
+T& T::operator=(T &&rhs) {
+  // Self check
+  if (this == &rhs)
+    return *this;
+
+  clearList(*this);
+
+  // Moves the content of rhs to this
+  this->head = rhs.head;
+  rhs.head = nullptr;
+
+  return *this;
+}
+
 ```
 
 # Algorithms
 A way of printing every element in a container using STL is to use `std::copy` and `std::ostream_iterator`:
-```cpp
-std::copy(begin_it, end_it, std::ostream_iterator<std::string>(std::cout, "\n")); ```
-```
+
 This copies every element from begin_it to end_it to the ostream_iterator which prints it to std::cout. The third argument is the delimiter.
+```cpp
+std::copy(begin_it, end_it, std::ostream_iterator<std::string>(std::cout, "\n"));
+```
 
 ---
 
@@ -43,6 +104,23 @@ std::transform(begin_it, end_it, begin_it2, container_to_push_to, binary_op);
 // accumulator, element
 std::reduce(begin_it, end_it, initial_value, binary_op);
 
+```
+```cpp
+// Read for cin and append it to gifts vector
+// This read cin from beginning until it matches the end iterator which is
+// retured by the constructor of istream_iterator
+vector<string> gifts { istream_iterator<string>{cin}, istream_iterator<string>{} };
+
+// Vector of strings
+vector<string> wishlist{ "Book", "Bicycle", "Laptop", "Socks", "Decorations", "Candy" };
+
+// Remove every element in wishlist if it exists in gifts
+wishlist.erase(
+    remove_if(wishlist.begin(), wishlist.end(), [&gifts](const string &el){
+        return find(gifts.begin(), gifts.end(), el) != gifts.end();
+    }),
+    wishlist.end()
+);
 ```
 
 # command-line arguments
@@ -90,7 +168,32 @@ std::vector<Date*>{
 
 ```
 
----
+A virtual destructor is usually required in a base class.
 
 ```cpp
+
+  // Forcing the compiler to generate a destructor
+  virtual ~Component() = default;
+
+  // Disabling the implicit destructor
+  virtual ~Component() = delete;
+
+  // Copy constructor
+  SortedList(const SortedList &list);
+
+  // Move constructor
+    SortedList::SortedList(SortedList &&refList) {
+      // Move refList to this, example below
+      this->head = refList.head;
+      refList.head = nullptr;
+    }
+
+  // Destructor
+  ~SortedList();
+
+  // Copy assignment operator
+  SortedList &operator=(const SortedList &rhs);
+
+  // Move assignment operator
+  SortedList &operator=(SortedList &&rhs);
 ```
