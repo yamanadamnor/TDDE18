@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iterator>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -42,21 +43,13 @@ int main()
     std::sort(first_schedule.begin(), first_schedule.end());
     std::sort(second_schedule.begin(), second_schedule.end());
 
-    std::cout << std::endl;
+    std::vector<std::string> combined_schedule;
 
+    std::merge(first_schedule.begin(), first_schedule.end(), second_schedule.begin(), second_schedule.end(), std::back_inserter(combined_schedule));
 
-    std::vector<std::string> combined_schedule{};
-    std::copy(first_schedule.begin(), first_schedule.end(), combined_schedule.begin());
+    auto last = std::unique(combined_schedule.begin(), combined_schedule.end());
+    combined_schedule.erase(last, combined_schedule.end());
 
-    for(const auto &el : combined_schedule) {
-        std::cout <<  el << std::endl;
-    };
+    std::copy(combined_schedule.begin(), combined_schedule.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
 
-    
-    // 3. Copy first_schedule and second_schedule into
-    //    combined_schedule in such a way that the events are sorted.
-
-    // 4. Remove any duplicates from combined_schedule.
-
-    // 5. Print each event in combined_schedule, one line per event.
 }
