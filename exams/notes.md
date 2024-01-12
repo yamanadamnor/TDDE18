@@ -82,6 +82,18 @@ T& T::operator=(T &&rhs) {
   return *this;
 }
 
+ostream& operator<<(ostream &os, const T &object)
+
+// Prefix operators
+Time &operator++(Time &time);
+Time &operator--(Time &time);
+
+// Postfix operators
+Time operator++(Time &time, int);
+Time operator--(Time &time, int);
+
+// Comparison operators
+bool operator>(const Time &lhs, const Time &rhs);
 ```
 
 # Algorithms
@@ -196,4 +208,12 @@ A virtual destructor is usually required in a base class.
 
   // Move assignment operator
   SortedList &operator=(SortedList &&rhs);
+
+Shape* ptr {...};
+Cuboid* cuboid {dynamic_cast<Cuboid*>(ptr)};
+if (cuboid != nullptr)
+{
+    // only print volume if it is a cuboid
+    cout << cuboid->volume() << endl;
+}
 ```
